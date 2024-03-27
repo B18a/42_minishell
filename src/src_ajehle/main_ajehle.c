@@ -6,11 +6,11 @@
 /*   By: andreasjehle <andreasjehle@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 18:48:53 by andreasjehl       #+#    #+#             */
-/*   Updated: 2024/03/27 23:01:34 by andreasjehl      ###   ########.fr       */
+/*   Updated: 2024/03/27 23:24:49 by andreasjehl      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 int	run_andi_main(int argc, char **argv)
 {

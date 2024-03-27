@@ -6,7 +6,7 @@
 #    By: andreasjehle <andreasjehle@student.42.f    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 15:31:09 by ajehle            #+#    #+#              #
-#    Updated: 2024/03/27 18:46:50 by andreasjehl      ###   ########.fr        #
+#    Updated: 2024/03/27 23:31:51 by andreasjehl      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,11 +14,10 @@ NAME				= minishell
 CC					= cc
 REMOVE				= rm -rf
 SRC_DIR				= src
-SRC_DIR_AJEHLE		= src_ajehle
-SRC_DIR_PSANGER		= src_psanger
 OBJ_DIR				= ./obj
 INC_DIR				= include
 CFLAGS				= -Wall -Werror -Wextra -I $(INC_DIR)
+LIBREADLINE			= -lreadline
 
 # looking for files in subdirectories
 vpath %.c $(SRC_DIR)
@@ -26,8 +25,9 @@ vpath %.h $(INC_DIR)
 
 # INTERNAL FUNCTIONS
 FUNCTIONS	=	$(SRC_DIR)/main.c \
-				$(SRC_DIR_AJEHLE)/main_ajehle.c \
-				 $(SRC_DIR_PSANGER)/main_psanger.c \
+				$(SRC_DIR)/src_ajehle/main_ajehle.c \
+				$(SRC_DIR)/src_psanger/main_psanger.c \
+
 
 # INTERNAL OBJECT
 OBJECTS				= $(addprefix $(OBJ_DIR)/, $(notdir $(FUNCTIONS:.c=.o)))
@@ -59,7 +59,7 @@ all :  $(NAME)
 
 # INTERNAL RULE
 $(NAME) : $(LIBS_NAME) $(OBJECTS)
-	$(CC) $(CFLAGS) $(OBJECTS) $(LIBS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJECTS) $(LIBS) $(LIBREADLINE) -o $(NAME)
 
 # EXTERNAL LIBRARYS RULE (1 for each lib)
 $(FT_PRINTF) :
@@ -76,9 +76,9 @@ $(OBJ_DIR) :
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
-$(OBJ_DIR)/%.o: $(SRC_DIR_AJEHLE)/%.c | $(OBJ_DIR)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/src_ajehle/%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
-$(OBJ_DIR)/%.o: $(SRC_DIR_PSANGER)/%.c | $(OBJ_DIR)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/src_psanger/%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean :
