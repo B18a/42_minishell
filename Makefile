@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+         #
+#    By: andreasjehle <andreasjehle@student.42.f    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 15:31:09 by ajehle            #+#    #+#              #
-#    Updated: 2024/03/27 16:42:33 by ajehle           ###   ########.fr        #
+#    Updated: 2024/03/27 18:46:50 by andreasjehl      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,8 +26,8 @@ vpath %.h $(INC_DIR)
 
 # INTERNAL FUNCTIONS
 FUNCTIONS	=	$(SRC_DIR)/main.c \
-#				 $(SRC_DIR_AJEHLE)/
-#				 $(SRC_DIR_PSANGER)/
+				$(SRC_DIR_AJEHLE)/main_ajehle.c \
+				 $(SRC_DIR_PSANGER)/main_psanger.c \
 
 # INTERNAL OBJECT
 OBJECTS				= $(addprefix $(OBJ_DIR)/, $(notdir $(FUNCTIONS:.c=.o)))
@@ -75,6 +75,10 @@ $(OBJ_DIR) :
 	mkdir $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+$(OBJ_DIR)/%.o: $(SRC_DIR_AJEHLE)/%.c | $(OBJ_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+$(OBJ_DIR)/%.o: $(SRC_DIR_PSANGER)/%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean :
