@@ -6,12 +6,12 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:33:29 by ajehle            #+#    #+#             */
-/*   Updated: 2024/03/27 16:35:05 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/03/27 16:43:08 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#include "../include/so_long.h"
+#include "../include/minishell.h"
 
 void	check_leaks(void)
 {
