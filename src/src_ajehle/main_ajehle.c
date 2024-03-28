@@ -6,37 +6,12 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 11:38:45 by ajehle            #+#    #+#             */
-/*   Updated: 2024/03/28 12:20:44 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/03/28 14:26:44 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../../include/minishell.h"
-
-
-void	get_input(void)
-{
-	char *line;
-
-	line = NULL;
-	while(1)
-	{
-		line = readline("minishell:");
-		if(line)
-		{
-			add_history(line);
-			if(line)
-				free(line);
-		}
-	}
-}
-
-void	get_current_work_dir(void)
-{
-	char wd[100];
-	getcwd(wd, 50);
-	printf("CWD : %s",wd);
-}
 
 static void	signal_handler(int signum)
 {
@@ -50,14 +25,46 @@ static void	signal_handler(int signum)
 	{
 
 	}
+	if(signum == 13)	//CTRL-D
+	{
+
+	}
+
 }
+
+void	get_input(void)
+{
+	char *line;
+
+	line = NULL;
+	while(1)
+	{
+		line = readline("minishell:");
+		if(line)
+		{
+			add_history(line);
+			if(line == 0)
+				signal_handler(13);
+
+			if(line)
+				free(line);
+		}
+	}
+}
+
+void	get_current_work_dir(void)
+{
+	char wd[100];
+	getcwd(wd, 50);
+	printf("CWD : %s",wd);
+}
+
 
 
 int	run_andi_main(void)
 {
-	signal(SIGINT, signal_handler);		//CTRL-C
-	// signal(???, signal_handler);	//CTRL-D?
-	signal(SIGQUIT, signal_handler);	//CTRL-Backslash
+	// signal(SIGINT, signal_handler);		//CTRL-C
+	// signal(SIGQUIT, signal_handler);	//CTRL-Backslash
 
 	get_input();
 	get_current_work_dir();
