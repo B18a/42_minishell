@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: andreasjehle <andreasjehle@student.42.f    +#+  +:+       +#+         #
+#    By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 15:31:09 by ajehle            #+#    #+#              #
-#    Updated: 2024/03/27 23:31:51 by andreasjehl      ###   ########.fr        #
+#    Updated: 2024/03/28 11:47:34 by ajehle           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ vpath %.h $(INC_DIR)
 # INTERNAL FUNCTIONS
 FUNCTIONS	=	$(SRC_DIR)/main.c \
 				$(SRC_DIR)/src_ajehle/main_ajehle.c \
+				$(SRC_DIR)/src_ajehle/signal_handling.c \
 				$(SRC_DIR)/src_psanger/main_psanger.c \
 
 

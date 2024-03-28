@@ -1,0 +1,8 @@
+{
+	"files.associations": {
+		"termios.h": "c",
+		"minishell.h": "c",
+		"readline.h": "c",
+		"signal.h": "c"
+	}
+}

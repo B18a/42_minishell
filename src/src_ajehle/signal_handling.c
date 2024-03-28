@@ -1,27 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_ajehle.h                                 :+:      :+:    :+:   */
+/*   signal_handling.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/27 16:36:10 by ajehle            #+#    #+#             */
-/*   Updated: 2024/03/28 11:49:07 by ajehle           ###   ########.fr       */
+/*   Created: 2024/03/28 11:38:41 by ajehle            #+#    #+#             */
+/*   Updated: 2024/03/28 11:48:51 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_AJEHLE_H
-# define MINISHELL_AJEHLE_H
-
-# include "../include/minishell.h"
-
-# include<readline/readline.h>
-# include<readline/history.h>
-
-# include<signal.h>
-
-int	run_andi_main(void);
-// static void	signal_handler(int signum);
+#include "../../include/minishell.h"
 
 
-#endif
+
+// static void	signal_handler(int signum)
+// {
+// 	printf("NBR IS %i\n",signum);
+// 	// if(signum)
+// }
