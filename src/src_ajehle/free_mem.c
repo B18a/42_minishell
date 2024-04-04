@@ -6,7 +6,7 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 10:19:29 by ajehle            #+#    #+#             */
-/*   Updated: 2024/04/04 11:37:04 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/04/04 11:50:23 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	free_value(t_value *value)
 		{
 			while(value->cmd_args && value->cmd_args[i])
 			{
-				ft_printf("FREE CMD ARGS[i]\n");
+				ft_printf("FREE CMD ARGS[%i]\n",i);
 				free(value->cmd_args[i]);
 				i++;
 			}

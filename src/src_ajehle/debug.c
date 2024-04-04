@@ -6,7 +6,7 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 10:36:44 by ajehle            #+#    #+#             */
-/*   Updated: 2024/04/04 11:38:48 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/04/04 11:50:06 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ void	print_2d_arr(char **arr)
 	{
 		while (arr[i])
 		{
-			ft_printf("[%i]	", i);
+			ft_printf("				[%i]	", i);
 			while (arr[i][j])
 			{
-				ft_printf(" %c ", arr[i][j]);
+				ft_printf("%c", arr[i][j]);
 				j++;
 			}
 			ft_printf("\n");
