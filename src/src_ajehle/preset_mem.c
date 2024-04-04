@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   preset_mem.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/27 16:36:17 by ajehle            #+#    #+#             */
-/*   Updated: 2024/04/04 10:56:16 by ajehle           ###   ########.fr       */
+/*   Created: 2024/04/04 10:19:53 by ajehle            #+#    #+#             */
+/*   Updated: 2024/04/04 10:52:36 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "../../include/minishell.h"
 
-# include "../libs/ft_printf/include/ft_printf.h"
-# include "../libs/get_next_line/get_next_line.h"
-# include "../libs/libft/include/libft.h"
-
-# include "minishell_ajehle.h"
-# include "minishell_psanger.h"
-
-# include <fcntl.h>
-# include <stdbool.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <time.h>
-# include <unistd.h>
-
-#endif
+void	preset_struct(t_minishell *lst)
+{
+	if(lst)
+	{
+		lst->next = NULL;
+		lst->type = 0;
+		if(lst->value)
+		{
+			lst->value->buildin = NULL;
+			lst->value->cmd = NULL;
+			lst->value->cmd_args = NULL;
+			lst->value->name = NULL;
+			lst->value->exec = FALSE;
+		}
+	}
+}

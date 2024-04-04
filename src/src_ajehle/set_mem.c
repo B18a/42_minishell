@@ -1,18 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_psanger.h                                :+:      :+:    :+:   */
+/*   set_mem.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/27 16:36:10 by ajehle            #+#    #+#             */
-/*   Updated: 2024/03/27 16:50:22 by ajehle           ###   ########.fr       */
+/*   Created: 2024/04/04 10:22:09 by ajehle            #+#    #+#             */
+/*   Updated: 2024/04/04 10:53:51 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_PSANGER_H
-# define MINISHELL_PSANGER_H
+#include "../../include/minishell.h"
 
-# include "../include/minishell.h"
+t_minishell	*set_mem_lst(void)
+{
+	t_minishell	*lst;
 
-#endif
+	lst = NULL;
+	lst = malloc(sizeof(t_minishell));
+	if(!lst)
+		return(NULL);
+	if(lst)
+	{
+		lst->value = NULL;
+		lst->value = malloc(sizeof(t_value));
+		if(!lst->value)
+			return(NULL);
+		preset_struct(lst);
+	}
+	return (lst);
+}
