@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andreasjehle <andreasjehle@student.42.f    +#+  +:+       +#+        */
+/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:33:29 by ajehle            #+#    #+#             */
-/*   Updated: 2024/03/27 23:36:27 by andreasjehl      ###   ########.fr       */
+/*   Updated: 2024/04/05 10:24:06 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	check_leaks(void)
 
 int	main(int argc, char **argv)
 {
-	atexit(check_leaks);
+	// atexit(check_leaks);
 	run_andi_main(argc, argv);
 	return (0);
 }

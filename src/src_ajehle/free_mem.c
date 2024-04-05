@@ -6,11 +6,30 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 10:19:29 by ajehle            #+#    #+#             */
-/*   Updated: 2024/04/04 11:50:23 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/04/04 15:58:19 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+void	free_2d_arr(char	**arr)
+{
+	int	i;
+
+	i = 0;
+	if (arr)
+	{
+		while(arr && arr[i])
+		{
+			ft_printf("FREE ARR[%i]\n",i);
+			free(arr[i]);
+			i++;
+		}
+		ft_printf("FREE ARR\n");
+		free(arr);
+	}
+}
+
 
 void	free_value(t_value *value)
 {
@@ -19,8 +38,7 @@ void	free_value(t_value *value)
 	i = 0;
 	if(value)
 	{
-
-		if(value->cmd_args && value->cmd_args[i])
+		if(value->cmd_args)
 		{
 			while(value->cmd_args && value->cmd_args[i])
 			{
@@ -34,7 +52,7 @@ void	free_value(t_value *value)
 		ft_printf("FREE VALUE\n");
 		free(value);
 
-		/*	NOT NECESSARY
+		/*	NOT NECESSARY ?
 		if(value->buildin)
 		{
 			ft_printf("FREE BUILDIN\n");
