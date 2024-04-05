@@ -6,7 +6,7 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 18:48:53 by andreasjehl       #+#    #+#             */
-/*   Updated: 2024/04/05 15:43:42 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/04/05 17:18:36 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,107 +90,124 @@ char	*delimit_string(char *str)
 	return (ret);
 }
 
-int	check_redirects(char *temp, t_minishell *lst)
+
+int	check_pipe(char **temp,int i, t_minishell *lst)
 {
-		if(!ft_strncmp(temp,"<<",2))
+	if(!ft_strncmp(temp[i],"|",1))
+	{
+		lst->type = PIPE;
+		return (1);
+	}
+	return (0);
+}
+
+int	check_redirects(char **temp, int i, t_minishell *lst)
+{
+		if(!ft_strncmp(temp[i],"<<\0",3))
 			lst->type = APPEND;
-		else if(!ft_strncmp(temp,">>",2))
+		else if(!ft_strncmp(temp[i],">>\0",3))
 			lst->type = HEREDOC;
-		else if(!ft_strncmp(temp,"<",1))
+		else if(!ft_strncmp(temp[i],"<\0",2))
 			lst->type = INFILE;
-		else if(!ft_strncmp(temp,">",1))
+		else if(!ft_strncmp(temp[i],">\0",2))
 			lst->type = OUTFILE;
-		if(lst->type)
+		if(lst->type && temp[i + 1])
 		{
-			lst->value->name = temp++;
+			lst->value->name = temp[i + 1];
 			lst->value->exec = TRUE;
 			return (1);
 		}
 		return (0);
 }
 
-int	check_pipe(char *temp, t_minishell *lst)
+
+
+// t_minishell *set_values(char *token)
+// {
+// 	t_minishell	*lst;
+// 	if(!ft_strncmp(token,"<<\0",3))
+// 		lst->type = APPEND;
+// 	else if(!ft_strncmp(token,">>\0",3))
+// 		lst->type = HEREDOC;
+// 	else if(!ft_strncmp(token,"<\0",2))
+// 		lst->type = INFILE;
+// 	else if(!ft_strncmp(token,">\0",2))
+// 		lst->type = OUTFILE;
+// 	if(lst->type && token[i + 1])
+// 	{
+// 		lst->value->name = token[i + 1];
+// 		lst->value->exec = TRUE;
+// 	}
+// 	return (lst);
+// }
+
+t_minishell	*ft_msh_last(t_minishell *lst)
 {
-
-
-}
-
-t_minishell *set_values(char *token)
-{
-	t_minishell	*lst;
-	char		**temp;
-	int			i = 0;
-
-	lst = set_mem_lst();
 	if (!lst)
 		return (NULL);
-	if (token)
-	{
-		temp = NULL;
-		i = 0;
-		temp = ft_split(token, ' ');
-		while (temp[i])
-		{
-			ft_printf("[%i]%s\n",i,temp[i]);
-			if(check_redirects(temp[i], lst))
-				i++;
-			else if(check_pipe(temp[i],lst))
-			{
-				ft_printf("PIPE \n");
-
-			}
-				// ft_printf("REDIRECT \n");
-			// else
-				// ft_printf("NO REDIRECT \n");
-			i++;
-		}
-		if(temp)
-			free(temp);
-	}
-	return (lst);
+	if (!(lst->next))
+		return (lst);
+	else
+		return (ft_msh_last(lst->next));
 }
 
-int	count_pipes(char **tokens)
+void	ft_msh_add_front(t_minishell **lst, t_minishell *new)
 {
-	int	i;
-
-	i = 0;
-	while(tokens && tokens[i])
-		i++;
-	i--;
-	return (i);
+	if (new == NULL)
+		return ;
+	else
+	{
+		new->next = lst[0];
+		lst[0] = new;
+	}
 }
+
+void	ft_msh_add_back(t_minishell **lst, t_minishell *new)
+{
+	if (!*lst)
+		ft_msh_add_front(lst, new);
+	else
+		ft_msh_last(*lst)->next = new;
+}
+
+
 
 t_minishell	*fill_lst(char	**tokens)
 {
 	t_minishell	*begin;
-	// char		*single_token;
+	t_minishell	*current;
 	int			i;
-	int			pipes;
-
 
 	begin = set_mem_lst();
 	if (!begin)
 		return (NULL);
 	i = 0;
-	pipes = count_pipes(tokens);
-	ft_printf("PIPES %i\n\n",pipes);
-	// if(pipes)
-	// {
-	// 	// generate first msh struct
-	// 	// lst add front?
-	// }
-
 	while (tokens && tokens[i])
 	{
-		if (i > 0)
+		current = set_mem_lst();
+		if (!current)
+			return (NULL);
+		if(!ft_strncmp(tokens[i],"<<\0",3))
+			current->type = APPEND;
+		else if(!ft_strncmp(tokens[i],">>\0",3))
+			current->type = HEREDOC;
+		else if(!ft_strncmp(tokens[i],"<\0",2))
+			current->type = INFILE;
+		else if(!ft_strncmp(tokens[i],">\0",2))
+			current->type = OUTFILE;
+		if(current->type && tokens[i + 1])
 		{
-			// create a msh strct with pipe
+			current->value->name = tokens[i + 1];
+			// wird das noch benötigt?
+			current->value->exec = TRUE;
+
+			i++;
 		}
-		tokens[i] =	delimit_string(tokens[i]);
-		ft_printf("[%i]->%s\n\n",i,tokens[i]);
-		// analyse piece of chunk and set to bits that can be handled
-		begin = set_values(tokens[i]);
+		if(!ft_strncmp(tokens[i],"|\0",2))
+			current->type = PIPE;
+		if(current->type)
+				current->value->error = FALSE;
+		ft_msh_add_back(&begin, current);
 		i++;
 	}
 	ft_printf("\n");
@@ -210,18 +227,18 @@ int	run_andi_main(int argc, char **argv)
 		if(line)
 			break;
 	}
-	char **tokens = ft_split(line, '|');
+	char **tokens = ft_split(line, ' ');
 	if(!tokens)
 	{
 		printf("ARG IS EMPTY\n");
 	}
 	print_2d_arr(tokens);
 
-	t_minishell *start;
-	start = fill_lst(tokens);
-	printf_list(start);
+	t_minishell *msh;
+	msh = fill_lst(tokens);
+	printf_list(msh);
 
-	// free_lst(start);
+	// free_lst(msh);
 	// free_2d_arr(tokens);
 	// if(line)
 	// 	free(line);
