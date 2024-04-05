@@ -6,7 +6,7 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 10:19:53 by ajehle            #+#    #+#             */
-/*   Updated: 2024/04/04 10:52:36 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/04/05 15:33:36 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	preset_struct(t_minishell *lst)
 			lst->value->cmd_args = NULL;
 			lst->value->name = NULL;
 			lst->value->exec = FALSE;
+			lst->value->error = FALSE;
 		}
 	}
 }

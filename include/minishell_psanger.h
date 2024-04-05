@@ -6,7 +6,7 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:36:10 by ajehle            #+#    #+#             */
-/*   Updated: 2024/04/04 18:38:33 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/04/05 15:33:25 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@
 #define FALSE 0
 
 // type
-#define PIPE 9
-#define PIPE_WRITE 10
-#define PIPE_READ 11
+// #define PIPE_WRITE 9
+#define PIPE 10
+// #define PIPE_READ 11
 
 #define CMD 20
 
@@ -57,14 +57,20 @@ typedef struct s_value
 
 	char	*name; // -> typ redirect
 	bool	exec;// -> typ redirect
+
+	bool	error;// if the given prompt is faulty
 }			t_value;
 
+
+
+// typedef struct s_msh
 typedef struct s_minishell
 {
 	int					type;
 	struct s_minishell	*next;
 	struct s_value		*value;
 }						t_minishell;
+// }						t_msh;
 
 char		*get_path(char *argv);
 t_minishell	*get_list();

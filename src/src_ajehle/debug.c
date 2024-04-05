@@ -6,7 +6,7 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/04 10:36:44 by ajehle            #+#    #+#             */
-/*   Updated: 2024/04/04 11:50:06 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/04/05 15:37:47 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ char	*return_true_type(int type)
 {
 	if(type == PIPE)
 		return("PIPE");
-	if(type == PIPE_WRITE)
-		return("PIPE_WRITE");
-	if(type == PIPE_READ)
-		return("PIPE_READ");
+	// if(type == PIPE_WRITE)
+	// 	return("PIPE_WRITE");
+	// if(type == PIPE_READ)
+	// 	return("PIPE_READ");
 	if(type == CMD)
 		return("CMD");
 	if(type == INFILE)
@@ -63,8 +63,13 @@ char	*return_true_type(int type)
 
 void	printf_list(t_minishell *lst)
 {
+	int	i;
+
+	i = 0;
+	ft_printf("--------PRINT LIST:-------------\n");
 	while (lst)
 	{
+		ft_printf("ELEMENT	:	%i\n",i);
 		ft_printf("TYPE	:	%s\n",return_true_type(lst->type));
 		ft_printf("VALUES	:\n");
 		ft_printf("		BUILDIN:	%s\n",lst->value->buildin);
@@ -73,8 +78,10 @@ void	printf_list(t_minishell *lst)
 				print_2d_arr(lst->value->cmd_args);
 		ft_printf("		NAME:		%s\n",lst->value->name);
 		ft_printf("		EXEC:		%i\n",lst->value->exec);
+		ft_printf("		ERROR:		%i\n",lst->value->error);
 		ft_printf("-------------------------------------------\n");
 		ft_printf("\n");
 		lst = lst->next;
+		i++;
 	}
 }
