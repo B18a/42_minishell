@@ -6,7 +6,7 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 18:48:53 by andreasjehl       #+#    #+#             */
-/*   Updated: 2024/04/05 17:18:36 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/04/06 14:58:38 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,104 +121,134 @@ int	check_redirects(char **temp, int i, t_minishell *lst)
 }
 
 
-
-// t_minishell *set_values(char *token)
+// t_minishell	*ft_msh_last(t_minishell *lst)
 // {
-// 	t_minishell	*lst;
-// 	if(!ft_strncmp(token,"<<\0",3))
-// 		lst->type = APPEND;
-// 	else if(!ft_strncmp(token,">>\0",3))
-// 		lst->type = HEREDOC;
-// 	else if(!ft_strncmp(token,"<\0",2))
-// 		lst->type = INFILE;
-// 	else if(!ft_strncmp(token,">\0",2))
-// 		lst->type = OUTFILE;
-// 	if(lst->type && token[i + 1])
-// 	{
-// 		lst->value->name = token[i + 1];
-// 		lst->value->exec = TRUE;
-// 	}
-// 	return (lst);
+// 	if (!lst)
+// 		return (NULL);
+// 	if (!(lst->next))
+// 		return (lst);
+// 	else
+// 		return (ft_msh_last(lst->next));
 // }
 
-t_minishell	*ft_msh_last(t_minishell *lst)
+// void	ft_msh_add_front(t_minishell **lst, t_minishell *new)
+// {
+// 	if (new == NULL)
+// 		return ;
+// 	else
+// 	{
+// 		new->next = lst[0];
+// 		lst[0] = new;
+// 	}
+// }
+
+// void	ft_msh_add_back(t_minishell **lst, t_minishell *new)
+// {
+// 	if (!*lst)
+// 		ft_msh_add_front(lst, new);
+// 	else
+// 		ft_msh_last(*lst)->next = new;
+// }
+
+
+
+// t_minishell	*fill_lst(char	**tokens)
+// {
+// 	t_minishell	*begin;
+// 	t_minishell	*current;
+// 	int			i;
+
+// 	begin = set_mem_lst();
+// 	if (!begin)
+// 		return (NULL);
+// 	i = 0;
+// 	while (tokens && tokens[i])
+// 	{
+// 		current = set_mem_lst();
+// 		if (!current)
+// 			return (NULL);
+// 		if(!ft_strncmp(tokens[i],"<<\0",3))
+// 			current->type = APPEND;
+// 		else if(!ft_strncmp(tokens[i],">>\0",3))
+// 			current->type = HEREDOC;
+// 		else if(!ft_strncmp(tokens[i],"<\0",2))
+// 			current->type = INFILE;
+// 		else if(!ft_strncmp(tokens[i],">\0",2))
+// 			current->type = OUTFILE;
+// 		if(current->type && tokens[i + 1])
+// 		{
+// 			current->value->name = tokens[i + 1];
+// 			// wird das noch benötigt?
+// 			current->value->exec = TRUE;
+
+// 			i++;
+// 		}
+// 		if(!ft_strncmp(tokens[i],"|\0",2))
+// 			current->type = PIPE;
+// 		if(current->type)
+// 				current->value->error = FALSE;
+// 		ft_msh_add_back(&begin, current);
+// 		i++;
+// 	}
+// 	ft_printf("\n");
+// 	return (begin);
+// }
+
+int	spezial_char(char c)
 {
-	if (!lst)
+	if(c == '<' || c == '>')
+		return(1);
+	return(0);
+}
+
+char	*ft_charjoin(char *s1, char c)
+{
+	char	*join;
+	size_t	len;
+
+	len = ft_strlen(s1) + 1;
+	join = (char *)malloc(sizeof(char) * len + 1);
+	if (!join)
 		return (NULL);
-	if (!(lst->next))
-		return (lst);
-	else
-		return (ft_msh_last(lst->next));
+	ft_strlcpy(join, s1, ft_strlen(s1) + 1);
+	ft_strlcpy(&join[ft_strlen(s1)], &c, 1 + 1);
+	return (join);
 }
 
-void	ft_msh_add_front(t_minishell **lst, t_minishell *new)
+char	*prepare_line(char *line)
 {
-	if (new == NULL)
-		return ;
-	else
-	{
-		new->next = lst[0];
-		lst[0] = new;
-	}
-}
+	ft_printf("%s\n",line);
+	int	quotes_closed;
+	int	i;
+	char	*new_line;
+	char	*old_line;
+	char	*temp_line;
 
-void	ft_msh_add_back(t_minishell **lst, t_minishell *new)
-{
-	if (!*lst)
-		ft_msh_add_front(lst, new);
-	else
-		ft_msh_last(*lst)->next = new;
-}
-
-
-
-t_minishell	*fill_lst(char	**tokens)
-{
-	t_minishell	*begin;
-	t_minishell	*current;
-	int			i;
-
-	begin = set_mem_lst();
-	if (!begin)
-		return (NULL);
+	quotes_closed = TRUE;
 	i = 0;
-	while (tokens && tokens[i])
+	new_line = NULL;
+	old_line = NULL;
+	temp_line = NULL;
+	while(line[i])
 	{
-		current = set_mem_lst();
-		if (!current)
-			return (NULL);
-		if(!ft_strncmp(tokens[i],"<<\0",3))
-			current->type = APPEND;
-		else if(!ft_strncmp(tokens[i],">>\0",3))
-			current->type = HEREDOC;
-		else if(!ft_strncmp(tokens[i],"<\0",2))
-			current->type = INFILE;
-		else if(!ft_strncmp(tokens[i],">\0",2))
-			current->type = OUTFILE;
-		if(current->type && tokens[i + 1])
+		// temp_line = new_line;
+		if(line[i] == ' ')
 		{
-			current->value->name = tokens[i + 1];
-			// wird das noch benötigt?
-			current->value->exec = TRUE;
-
-			i++;
+			new_line = ft_charjoin(old_line,line[i]);
+			ft_printf("%s\n",new_line);
+			while(line[i] == ' ')
+				i++;
 		}
-		if(!ft_strncmp(tokens[i],"|\0",2))
-			current->type = PIPE;
-		if(current->type)
-				current->value->error = FALSE;
-		ft_msh_add_back(&begin, current);
 		i++;
 	}
-	ft_printf("\n");
-	return (begin);
+	return (new_line);
 }
-
 
 int	run_andi_main(int argc, char **argv)
 {
 	printf("%i,  %s\n",argc, argv[0]);
 	char *line;
+	char *new_line;
 
 	line = NULL;
 	while(1)
@@ -227,16 +257,19 @@ int	run_andi_main(int argc, char **argv)
 		if(line)
 			break;
 	}
-	char **tokens = ft_split(line, ' ');
-	if(!tokens)
-	{
-		printf("ARG IS EMPTY\n");
-	}
-	print_2d_arr(tokens);
+	new_line = prepare_line(line);
+	ft_printf("%s\n",new_line);
 
-	t_minishell *msh;
-	msh = fill_lst(tokens);
-	printf_list(msh);
+				// char **tokens = ft_split(line, ' ');
+				// if(!tokens)
+				// {
+				// 	printf("ARG IS EMPTY\n");
+				// }
+				// print_2d_arr(tokens);
+
+				// t_minishell *msh;
+				// msh = fill_lst(tokens);
+				// printf_list(msh);
 
 	// free_lst(msh);
 	// free_2d_arr(tokens);

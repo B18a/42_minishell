@@ -6,7 +6,7 @@
 #    By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 15:31:09 by ajehle            #+#    #+#              #
-#    Updated: 2024/04/04 11:27:10 by ajehle           ###   ########.fr        #
+#    Updated: 2024/04/06 15:00:14 by ajehle           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ REMOVE				= rm -rf
 SRC_DIR				= src
 OBJ_DIR				= ./obj
 INC_DIR				= include
-CFLAGS				= -Wall -Werror -Wextra -I $(INC_DIR)
+#CFLAGS				= -Wall -Werror -Wextra -I $(INC_DIR)
 LIBREADLINE			= -lreadline
 
 # looking for files in subdirectories
@@ -25,7 +25,7 @@ vpath %.h $(INC_DIR)
 
 # INTERNAL FUNCTIONS
 FUNCTIONS	=	$(SRC_DIR)/main.c \
-				$(SRC_DIR)/src_ajehle/main_ajehle.c \
+				$(SRC_DIR)/src_ajehle/main_ajehle_copy.c \
 				$(SRC_DIR)/src_ajehle/set_mem.c \
 				$(SRC_DIR)/src_ajehle/preset_mem.c \
 				$(SRC_DIR)/src_ajehle/debug.c \

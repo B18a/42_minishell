@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_ajehle.c                                      :+:      :+:    :+:   */
+/*   main_ajehle_copy.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 18:48:53 by andreasjehl       #+#    #+#             */
-/*   Updated: 2024/04/05 15:43:42 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/04/06 15:15:06 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,12 +109,6 @@ int	check_redirects(char *temp, t_minishell *lst)
 		return (0);
 }
 
-int	check_pipe(char *temp, t_minishell *lst)
-{
-
-
-}
-
 t_minishell *set_values(char *token)
 {
 	t_minishell	*lst;
@@ -134,11 +128,7 @@ t_minishell *set_values(char *token)
 			ft_printf("[%i]%s\n",i,temp[i]);
 			if(check_redirects(temp[i], lst))
 				i++;
-			else if(check_pipe(temp[i],lst))
-			{
-				ft_printf("PIPE \n");
 
-			}
 				// ft_printf("REDIRECT \n");
 			// else
 				// ft_printf("NO REDIRECT \n");
@@ -197,6 +187,147 @@ t_minishell	*fill_lst(char	**tokens)
 	return (begin);
 }
 
+void	ft_print_msh(t_msh *msh)
+{
+	int	i;
+
+	i = 0;
+	ft_printf("--------PRINT MSH:-------------\n");
+	while (msh)
+	{
+		ft_printf("ELEMENT	:	%i\n",i);
+		ft_printf("TYPE	:	%s\n",return_true_type(msh->type));
+		ft_printf("TOKEN	:	%s\n",msh->token);
+		ft_printf("-------------------------------------------\n");
+		ft_printf("\n");
+		msh = msh->next;
+		i++;
+	}
+}
+
+t_msh	*ft_msh_new(void *content)
+{
+	t_msh	*new;
+
+	new = (t_msh *)malloc(sizeof(t_msh));
+	if (!new)
+		return (NULL);
+	new->token = content;
+	new->next = NULL;
+	return (new);
+}
+
+t_msh	*ft_msh_last(t_msh *lst)
+{
+	if (!lst)
+		return (NULL);
+	if (!(lst->next))
+		return (lst);
+	else
+		return (ft_msh_last(lst->next));
+}
+
+void	ft_msh_add_front(t_msh **lst, t_msh *new)
+{
+	if (new == NULL)
+		return ;
+	else
+	{
+		new->next = lst[0];
+		lst[0] = new;
+	}
+}
+
+void	ft_msh_add_back(t_msh **lst, t_msh *new)
+{
+	if (!*lst)
+		ft_msh_add_front(lst, new);
+	else
+		ft_msh_last(*lst)->next = new;
+}
+
+char	*copy_token(char *str, int i)
+{
+		ft_printf("START\n");
+		ft_printf("%s\n", str);
+	int	start;
+	int	len;
+	char *token;
+
+	len = 1;
+	token = NULL;
+	if(str[i] && str[i] == ' ')
+		i++;
+	start = i;
+	while ((str[i] != '<' || str[i] != '>' || str[i] != ' ') && str[i])
+	{
+		i++;
+		len++;
+	}
+	ft_printf("len	%i\n", len);
+	token = ft_calloc(len, sizeof(char));
+	if(!token)
+		return(NULL);
+	ft_printf("start:%i\n", start);
+	while(start)
+	{
+		str++;
+		start--;
+	}
+	ft_strlcpy(token, str, len);
+	ft_printf("TOKEN:%s\n", token);
+	return (token);
+}
+
+t_msh	*fill_msh_lst(char *line)
+{
+	int	i = 0;
+	t_msh	*start;
+	t_msh	*new;
+	start = ft_msh_new(0);
+	if(!start)
+	{
+		ft_printf("Allocation of msh start failed\n");
+	}
+	int		open_quotes = FALSE;
+	int		command = 0;
+	char	*token = NULL;
+	// start->next = NULL;
+	// start->token = NULL;
+	// start->type = 0;
+	while(line[i])
+	{
+		if(line[i] && line[i + 1] && line[i] == '>' && line[i + 1] =='>')
+		{
+			ft_printf(">>\n");
+			command = APPEND;
+			token = copy_token(line, i+2);
+		}
+		else if(line[i] && line[i + 1] && line[i] == '<' && line[i + 1] == '<')
+		{
+			ft_printf("<<\n");
+			command = HEREDOC;
+			token = copy_token(line, i+2);
+		}
+		else if(line[i] == '>')
+		{
+			ft_printf(">\n");
+			command = OUTFILE;
+			token = copy_token(line, i+1);
+		}
+		else if(line[i] == '<')
+		{
+			ft_printf("<\n");
+			command = INFILE;
+			token = copy_token(line, i+1);
+		}
+		new = ft_msh_new(token);
+		new->type = command;
+		ft_msh_add_back(&start, new);
+		i++;
+	}
+	return (start);
+}
 
 int	run_andi_main(int argc, char **argv)
 {
@@ -210,16 +341,18 @@ int	run_andi_main(int argc, char **argv)
 		if(line)
 			break;
 	}
-	char **tokens = ft_split(line, '|');
-	if(!tokens)
-	{
-		printf("ARG IS EMPTY\n");
-	}
-	print_2d_arr(tokens);
+	t_msh	*msh;
+	msh = fill_msh_lst(line);
+	ft_print_msh(msh);
+	// char **tokens = ft_split(line, '|');
+	// if(!tokens)
+	// {
+	// 	printf("ARG IS EMPTY\n");
+	// }
+	// print_2d_arr(tokens);
 
-	t_minishell *start;
-	start = fill_lst(tokens);
-	printf_list(start);
+	// t_minishell *start;
+	// start = fill_lst(tokens);
 
 	// free_lst(start);
 	// free_2d_arr(tokens);

@@ -6,7 +6,7 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 16:36:10 by ajehle            #+#    #+#             */
-/*   Updated: 2024/04/05 15:33:25 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/04/06 14:29:14 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,20 @@ typedef struct s_value
 
 
 
-// typedef struct s_msh
 typedef struct s_minishell
 {
 	int					type;
 	struct s_minishell	*next;
 	struct s_value		*value;
 }						t_minishell;
-// }						t_msh;
+
+typedef struct s_msh
+{
+	int				type;
+	char			*token;
+	struct s_msh	*next;
+
+}					t_msh;
 
 char		*get_path(char *argv);
 t_minishell	*get_list();
