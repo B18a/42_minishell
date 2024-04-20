@@ -1,0 +1,15 @@
+exec
+exec_append.c
+exec_append.o
+exec_builtin.c
+exec_cmd.c
+exec_cmd.o
+exec_heredoc.c
+exec_heredoc.o
+exec_infile.c
+exec_infile.o
+exec_outfile.c
+exec_outfile.o
+exec_pipe.c
+exec_pipe.o
+exec_test

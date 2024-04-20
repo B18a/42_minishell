@@ -67,26 +67,26 @@ all : $(NAME)
 
 # INTERNAL RULE
 $(NAME) : $(OBJECTS)
-	ar rcs $(NAME) $(OBJECTS)
+	@ar rcs $(NAME) $(OBJECTS)
 
 # INTERNAL BONUS RULE
 bonus : $(OBJECTS) $(BOBJECTS)
-	ar rcs $(NAME) $(OBJECTS) $(BOBJECTS)
+	@ar rcs $(NAME) $(OBJECTS) $(BOBJECTS)
 
 # DIRECTORY
 $(OBJ_DIR):
-	mkdir $(OBJ_DIR)
+	@mkdir $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean :
-		$(REMOVE) $(OBJECTS) $(BOBJECTS)
-		$(REMOVE) $(OBJ_DIR)
+		@$(REMOVE) $(OBJECTS) $(BOBJECTS)
+		@$(REMOVE) $(OBJ_DIR)
 
 fclean : clean
-		$(REMOVE) $(NAME)
-		$(REMOVE) $(OBJ_DIR)
+		@$(REMOVE) $(NAME)
+		@$(REMOVE) $(OBJ_DIR)
 
 re : fclean
 
