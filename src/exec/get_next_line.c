@@ -6,11 +6,11 @@
 /*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 11:39:46 by psanger           #+#    #+#             */
-/*   Updated: 2024/04/10 16:31:23 by psanger          ###   ########.fr       */
+/*   Updated: 2024/04/25 17:08:01 by psanger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../include/minishell.h"
 
 char	*get_line_ps(char *line)
 {

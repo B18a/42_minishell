@@ -6,28 +6,28 @@
 /*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 20:10:04 by psanger           #+#    #+#             */
-/*   Updated: 2024/04/09 21:56:08 by psanger          ###   ########.fr       */
+/*   Updated: 2024/04/25 22:45:41 by psanger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../include/minishell.h"
 
-void	exec_infile(t_minishell *list)
+void	exec_infile(t_msh *list, int if_exit)
 {
 	if (list == NULL)
 	{
 		write(2, "ERROR, PROBLEM WITH LIST\n", 26);
 		exit(1);
 	}
-	int fd = open(list->value->name, O_RDONLY);
+	int fd = open(list->cmd_args[0], O_RDONLY);
 	if (fd < 0) {
-		printf("%s: No such file or directory\n", list->value->name);
+		printf("%s: No such file or directory\n", list->cmd_args[0]);
 		return ;
 	}
-	if (list->value->exec != TRUE)
-		return ;
+	// if (list->exec != TRUE)
+	// 	return ;
 	if (dup2(fd, STDIN_FILENO) < 0)
 		exit(1);
 	close(fd);
-	handler(list->left);
+	handler(list->left, if_exit);
 }

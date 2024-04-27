@@ -6,13 +6,13 @@
 /*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:32:15 by psanger           #+#    #+#             */
-/*   Updated: 2024/04/09 21:56:11 by psanger          ###   ########.fr       */
+/*   Updated: 2024/04/25 22:45:47 by psanger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../include/minishell.h"
 
-void	exec_outfile(t_minishell *list)
+void	exec_outfile(t_msh *list, int if_exit)
 {
 	int fd;
 
@@ -21,13 +21,12 @@ void	exec_outfile(t_minishell *list)
 		write(2, "ERROR, PROBLEM WITH LIST\n", 26);
 		exit(1);
 	}
-	fd = open(list->value->name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (list->value->exec == FALSE) {
-		close(fd);
-		return ;
-	}
+	fd = open(list->cmd_args[0], O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	// if (list->exec == FALSE) {
+	// 	close(fd);
+	// 	return ;
+	// }
 	dup2(fd, STDOUT_FILENO);
 	close (fd);
-	handler(list->left);
-	return ;
+	handler(list->left, if_exit);
 }

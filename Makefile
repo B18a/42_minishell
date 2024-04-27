@@ -6,7 +6,7 @@
 #    By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 15:31:09 by ajehle            #+#    #+#              #
-#    Updated: 2024/04/20 13:41:44 by ajehle           ###   ########.fr        #
+#    Updated: 2024/04/26 15:01:20 by ajehle           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ REMOVE				= rm -rf
 SRC_DIR				= src
 OBJ_DIR				= ./obj
 INC_DIR				= include
-CFLAGS				= -Wall -Werror -Wextra -I $(INC_DIR)
+CFLAGS				= -I $(INC_DIR) -Wall -Werror -Wextra
 LIBREADLINE			= -lreadline
 
 # looking for files in subdirectories
@@ -26,15 +26,42 @@ vpath %.c $(SRC_DIR)
 vpath %.h $(INC_DIR)
 
 # INTERNAL FUNCTIONS
-FUNCTIONS	=	$(SRC_DIR)/debug.c \
-				$(SRC_DIR)/get_input.c \
-				$(SRC_DIR)/get_path.c \
-				$(SRC_DIR)/parser_helper.c \
-				$(SRC_DIR)/parser.c \
-				$(SRC_DIR)/print_tree.c \
-				$(SRC_DIR)/shell.c \
-				$(SRC_DIR)/tokenizer_helper.c \
-				$(SRC_DIR)/tokenizer.c \
+PARSER	=	shell.c \
+				debug.c \
+				free.c \
+				get_input.c \
+				parser_helper.c \
+				parser_no_pipe.c \
+				parser_pipes.c \
+				parser_tree.c \
+				parser.c \
+				print_tree.c \
+				tokenizer_helper.c \
+				tokenizer.c \
+
+EXEC	=	handler.c \
+				get_path.c \
+				exec_cmd.c \
+				exec_outfile.c \
+				exec_infile.c \
+				exec_append.c \
+				exec_pipe.c \
+				get_next_line.c \
+				exec_heredoc.c \
+				exec_builtin.c
+
+BUILTIN	=	builtins.c \
+				expander.c \
+				env_list_helper.c \
+				ft_env.c \
+				ft_export.c \
+				ft_export_no_args.c \
+				ft_unset.c \
+				ft_pwd.c
+
+SRCS	=	$(addprefix parser/, $(PARSER)) \
+			$(addprefix exec/, $(EXEC)) \
+			$(addprefix builtin/, $(BUILTIN))
 
 # Colors
 YELLOW := "\033[0;33m"
@@ -43,7 +70,6 @@ BLUE := "\033[0;34m"
 GREEN := "\033[0;32m"
 RED := "\033[0;31m"
 RESET := "\033[0m"
-
 
 # --- EXTERNAL LIBRARYS START --- #
 # FT_LIBFT Resources
@@ -63,13 +89,13 @@ $(FT_LIBFT) :
 	$(MAKE) bonus -C $(FT_LIBFT_DIR)
 
 # INTERNAL OBJECT
-OBJECTS	= $(addprefix $(OBJ_DIR)/, $(notdir $(FUNCTIONS:.c=.o)))
+OBJECTS	= $(addprefix src/, $(SRCS:.c=.o))
+# OBJECTS	= $(addprefix src/, $(notdir $(SRCS:.c=.o)))
 
 # INTERNAL RULE
 $(NAME) : $(LIBS_NAME) $(OBJECTS)
 	@$(CC) $(CFLAGS) $(OBJECTS) $(LIBS) $(LIBREADLINE) -o $(NAME)
 	@echo $(GREEN) "ALL DONE" $(RESET)
-
 
 # DIRECTORY
 $(OBJ_DIR) :
@@ -82,8 +108,9 @@ all :  $(NAME)
 
 clean :
 	$(MAKE) -C $(FT_LIBFT_DIR) clean
-	@$(REMOVE) $(OBJECTS)
-	@$(REMOVE) $(OBJ_DIR)
+	rm src/exec/*.o
+	rm src/parser/*.o
+	rm src/builtin/*.o
 	@echo $(YELLOW) "CLEAN DONE" $(RESET)
 
 fclean : clean
@@ -91,7 +118,6 @@ fclean : clean
 	@$(REMOVE) $(NAME)
 	@echo $(RED) "FCLEAN DONE" $(RESET)
 
-re : clean all
-#re : fclean all
+re : fclean all
 
 .PHONY : all clean fclean re

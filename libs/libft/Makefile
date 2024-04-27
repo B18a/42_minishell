@@ -88,6 +88,6 @@ fclean : clean
 		@$(REMOVE) $(NAME)
 		@$(REMOVE) $(OBJ_DIR)
 
-re : fclean
+re : fclean all
 
 .PHONY : all, bonus, clean, fclean, re

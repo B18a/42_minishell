@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
+/*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 09:43:00 by ajehle            #+#    #+#             */
-/*   Updated: 2024/04/20 13:52:34 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/04/26 02:46:22 by psanger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,18 @@
 # include <unistd.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <limits.h>
+
+# define BUFFER_SIZE 42
 
 # define TRUE 1
 # define FALSE 0
 
 # define RIGHT 1
 # define LEFT 0
+
+#define p_read 0		//pipe fd[0] read
+#define p_write 1		//pipe fd[1] write
 
 # define ARG 1
 # define QUOTE 2
@@ -45,7 +51,7 @@
 # define HEREDOC 60 // <<
 
 # define CMD 70
-# define BUILDIN 80
+# define BUILTIN 80
 
 typedef struct s_input
 {
@@ -71,12 +77,28 @@ typedef struct s_msh
 	// -> cmd	+ text    args[0] = "ls" args[1] = "-la" args[2] = NULL
 	char			**cmd_args;
 	char			*cmd_path;
+
+
+	int				stdin_cpy;
+	int				stdout_cpy;
+	bool			exec;// -> typ redirect
 }					t_msh;
+
+typedef struct s_env
+{
+	char				*key;
+	char				*value;
+	struct s_env		*next;
+}				t_env;
 
 // debug
 char				*return_true_type(int type);
 void				ft_print_tok(t_tok *tok);
 void				print_2d_arr(char **arr);
+
+// free
+void	free_tree(t_msh *root);
+void	free_args(char	**args);
 
 // get_input
 void				free_mem(t_tok *tok);
@@ -88,19 +110,25 @@ void				get_input(void);
 char				*get_path(char *argv);
 char				*ft_strjoin_free(char *str, char *str2);
 
-// parser_helper.c
+// parser_helper
 int					is_redirect(int type);
 int					is_option(char *c);
 int					is_cmd(char *arg);
 char				*ft_str_cmd_join(char const *s1, char const *s2);
 int					get_pipes(t_tok *tok);
 
-// parser
+// parser_tree
 t_msh				*create_new(int type, char *content);
 t_msh				*make_branch(t_tok **tok);
+
+// parser_no_pipe
 t_msh				*fill_without_pipe(t_tok *tok);
+
+// parser_pipes
 t_msh				*create_pipes(int pipes);
 t_msh				*fill_with_pipes(t_tok *tok, int pipes_total);
+
+// parser
 t_msh				*parsing(t_tok *tok);
 
 // print_tree
@@ -130,5 +158,41 @@ t_tok				*tokenizer(char *argv);
 
 // expander
 // void				expander(t_tok *tok);
+
+// exec
+void	handler(t_msh *list, int if_exit);
+void	minishell_exec(t_msh *list);
+void	exec_pipe_write(int *pfd);
+void	exec_pipe_read(int *pfd);
+void	exec_cmd(t_msh *list);
+void	exec_last_cmd(t_msh *list, int if_exit);
+void	exec_outfile(t_msh *list, int if_exit);
+void	exec_infile(t_msh *list, int if_exit);
+void	exec_heredoc(t_msh *list, int if_exit);
+void	exec_append(t_msh *list, int if_exit);
+void	exec_builtin_child(t_msh *list, int if_exit);
+void	exec_builtin_parent(t_msh *list, int if_exit);
+
+
+// get_next_line
+char	*get_next_line(int fd);
+
+// builtins / env
+
+t_env	*get_env(char **env_start);
+void	env_free(t_env *env);
+
+void	env_lstadd_back(t_env **lst, t_env *new);
+t_env	*env_lstlast(t_env *lst);
+void	env_lstadd_front(t_env **lst, t_env *new);
+char	*get_key(char *argv);
+char	*expander(char *key, t_env **env);
+int		ft_shell_lvl(t_env **env);
+
+int	ft_env(t_env **env);
+int	ft_export(t_env **env, char *argv);
+int	ft_export_no_args(t_env **env);
+int	ft_unset(t_env **env, char *argv);
+int	ft_pwd(void);
 
 #endif

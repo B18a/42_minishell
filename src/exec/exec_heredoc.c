@@ -6,13 +6,13 @@
 /*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 21:05:10 by psanger           #+#    #+#             */
-/*   Updated: 2024/04/11 01:05:26 by psanger          ###   ########.fr       */
+/*   Updated: 2024/04/25 22:45:38 by psanger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../include/minishell.h"
 
-void	exec_heredoc(t_minishell *list)
+void	exec_heredoc(t_msh *list, int if_exit)
 {
 	if (list == NULL) {
 		write(2, "ERROR LIST\n", 12);
@@ -24,7 +24,7 @@ void	exec_heredoc(t_minishell *list)
 		exit(1);
 	}
 	char *buffer = NULL;
-	char *del = list->value->name;
+	char *del = list->cmd_args[0];
 	write(list->stdout_cpy, "> ", 2);
 	buffer = get_next_line(list->stdin_cpy);
 	while (ft_strncmp(buffer, del, ft_strlen(del) != 0)
@@ -42,5 +42,5 @@ void	exec_heredoc(t_minishell *list)
 		exit(1);
 	}
 	close(pfd[p_read]);
-	handler(list->left);
+	handler(list->left, if_exit);
 }

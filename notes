@@ -1,0 +1,31 @@
+ls > make a infinite loop
+> | segfault
+free tree causes segfault when the same command is executed a few times
+
+
+
+size_t	ft_strlen(const char *s)
+{
+	if(!s)
+		return(0); //0 --- NULL
+	size_t	counter;
+
+	counter = 0;
+	while (s[counter] != '\0')
+	{
+		counter++;
+	}
+	return (counter); //0 --- ""
+}
+
+/*
+int main ( void ) {
+	char *s = randomstringgenerator();
+
+	size_t length = ft_strlen(s);
+
+	check what is length ----> 0     ""     NULL
+
+}
+
+*/
