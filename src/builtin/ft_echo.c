@@ -6,7 +6,7 @@
 /*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 13:45:11 by psanger           #+#    #+#             */
-/*   Updated: 2024/04/26 13:47:15 by psanger          ###   ########.fr       */
+/*   Updated: 2024/04/29 15:42:12 by psanger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ int	ft_echo(char **argv)
 	i = 1;
 	while (argv[i] != NULL)
 	{
-
+		prinf("%s", argv[i]);
+		i++;
 	}
-
+	return (0);
 }

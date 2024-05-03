@@ -3,20 +3,15 @@ ls > make a infinite loop
 free tree causes segfault when the same command is executed a few times
 
 
+// 02.05.2024
+ls | grep a >> file //segfault! und komischer output manchmal, muss mehrmals probiert werden!
 
-size_t	ft_strlen(const char *s)
-{
-	if(!s)
-		return(0); //0 --- NULL
-	size_t	counter;
+// geht nicht:
+ls -al | grep Make >> file
+ls -al | grep s >> file
+cd
+> test
 
-	counter = 0;
-	while (s[counter] != '\0')
-	{
-		counter++;
-	}
-	return (counter); //0 --- ""
-}
 
 /*
 int main ( void ) {
@@ -29,3 +24,29 @@ int main ( void ) {
 }
 
 */
+		check input valid (pipe am ende)
+
+		heredoc 		// cpy stdin / out
+		EXIT codes		// exec part $?
+		cat | cat | ls	// exec part
+
+		Builtin 		// exit
+		Builtin 		// echo
+		expander in ""
+		offene ""
+
+		bei ctrl c prozesse beenden
+		minishell: nicht nochmal ausgeben
+
+		sortiertung letzter branch rechts
+
+		expander in heredoc
+
+		norm
+		leaks
+
+
+
+
+
+

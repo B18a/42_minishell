@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 00:22:59 by psanger           #+#    #+#             */
-/*   Updated: 2024/04/26 02:20:18 by psanger          ###   ########.fr       */
+/*   Updated: 2024/05/03 13:50:29 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ t_env	*export_get_new_node(char *key, char *argv)
 }
 int	check_old_keys(char *key, char *argv, t_env *curr)
 {
-	t_env	*prev;
+	// t_env	*prev;
 
-	prev = NULL;
+	// prev = NULL;
 	while (curr != NULL)
 	{
 		if (ft_strncmp(key, curr->key, ft_strlen(key) + 1) == 0)
@@ -55,7 +55,7 @@ int	check_old_keys(char *key, char *argv, t_env *curr)
 			ft_strlcpy(curr->value, argv, ft_strlen(argv) + 1);
 			return (1);
 		}
-		prev = curr;
+		// prev = curr;
 		curr = curr->next;
 	}
 	return (0);
@@ -79,7 +79,6 @@ int	ft_export(t_env **env, char *argv)
 	curr = *env;
 	if (check_old_keys(key, argv, curr) > 0)
 	{
-
 		return (0);
 	}
 	else if (check_key(key) == 1 && argv[ft_strlen(key)] == '=')

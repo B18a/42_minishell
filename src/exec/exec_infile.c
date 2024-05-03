@@ -6,13 +6,13 @@
 /*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 20:10:04 by psanger           #+#    #+#             */
-/*   Updated: 2024/04/25 22:45:41 by psanger          ###   ########.fr       */
+/*   Updated: 2024/04/29 16:16:27 by psanger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	exec_infile(t_msh *list, int if_exit)
+void	exec_infile(t_msh *list, int if_exit, t_env **env)
 {
 	if (list == NULL)
 	{
@@ -29,5 +29,5 @@ void	exec_infile(t_msh *list, int if_exit)
 	if (dup2(fd, STDIN_FILENO) < 0)
 		exit(1);
 	close(fd);
-	handler(list->left, if_exit);
+	handler(list->left, if_exit, env);
 }

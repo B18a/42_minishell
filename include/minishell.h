@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 09:43:00 by ajehle            #+#    #+#             */
-/*   Updated: 2024/04/26 02:46:22 by psanger          ###   ########.fr       */
+/*   Updated: 2024/05/03 13:49:18 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,10 +104,10 @@ void	free_args(char	**args);
 void				free_mem(t_tok *tok);
 int					check_for_buildins(char *str);
 void				handle_tokens(t_tok *tok);
-void				get_input(void);
 
 // get path
 char				*get_path(char *argv);
+void				free_old_path(char **exe_path);
 char				*ft_strjoin_free(char *str, char *str2);
 
 // parser_helper
@@ -137,22 +137,30 @@ void				print_tree(t_msh *root);
 void				print_tabs(int tabs);
 
 // shell
-void				get_input(void);
+void				get_input(t_env **env);
 
-// tokenizer helper
+// sorting
+void				swap_begin_of_tree(t_msh **start, t_msh **root);
+void				swap_mid_of_tree(t_msh **prev, t_msh **root);
+t_msh				*sort_tree_without_pipe(t_msh *root);
+void				sort_tree_with_pipes(t_msh *root, int pipes_total);
+
+// tokenizer helper 2
 int					is_space(char c);
 int					skip_spaces(char *argv, int i);
+int					is_special_char(char c);
+int					is_unique_quote(char c);
+int					is_unique_char(char c);
+
+// tokenizer helper
 t_tok				*ft_tok_new(char *content, int type);
 t_tok				*ft_tok_last(t_tok *lst);
 void				ft_tok_add_front(t_tok **lst, t_tok *new);
 void				ft_tok_add_back(t_tok **lst, t_tok *new);
 
 // tokenizer
-int					is_unique_quote(char c);
-int					is_unique_char(char c);
 char				*quote_string(t_input *input, int quote);
 int					redirect_type(t_input *input);
-int					is_special_char(char c);
 char				*normal_string(t_input *input);
 t_tok				*tokenizer(char *argv);
 
@@ -160,18 +168,18 @@ t_tok				*tokenizer(char *argv);
 // void				expander(t_tok *tok);
 
 // exec
-void	handler(t_msh *list, int if_exit);
-void	minishell_exec(t_msh *list);
+void	handler(t_msh *list, int if_exit, t_env **env);
+void	minishell_exec(t_msh *list, t_env **env);
 void	exec_pipe_write(int *pfd);
 void	exec_pipe_read(int *pfd);
 void	exec_cmd(t_msh *list);
-void	exec_last_cmd(t_msh *list, int if_exit);
-void	exec_outfile(t_msh *list, int if_exit);
-void	exec_infile(t_msh *list, int if_exit);
-void	exec_heredoc(t_msh *list, int if_exit);
-void	exec_append(t_msh *list, int if_exit);
-void	exec_builtin_child(t_msh *list, int if_exit);
-void	exec_builtin_parent(t_msh *list, int if_exit);
+void	exec_last_cmd(t_msh *list, int if_exit, t_env **env);
+void	exec_outfile(t_msh *list, int if_exit, t_env **env);
+void	exec_infile(t_msh *list, int if_exit, t_env **env);
+void	exec_heredoc(t_msh *list, int if_exit, t_env **env);
+void	exec_append(t_msh *list, int if_exit, t_env **env);
+int		exec_builtin_child(t_msh *list, int if_exit, t_env **env);
+int		exec_builtin_parent(t_msh *list, int if_exit, t_env **env);
 
 
 // get_next_line
@@ -193,6 +201,8 @@ int	ft_env(t_env **env);
 int	ft_export(t_env **env, char *argv);
 int	ft_export_no_args(t_env **env);
 int	ft_unset(t_env **env, char *argv);
+int	ft_cd(t_env **env, char *dir);
 int	ft_pwd(void);
+
 
 #endif

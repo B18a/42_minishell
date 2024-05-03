@@ -6,13 +6,13 @@
 /*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 21:05:10 by psanger           #+#    #+#             */
-/*   Updated: 2024/04/25 22:45:38 by psanger          ###   ########.fr       */
+/*   Updated: 2024/04/29 16:17:12 by psanger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	exec_heredoc(t_msh *list, int if_exit)
+void	exec_heredoc(t_msh *list, int if_exit, t_env **env)
 {
 	if (list == NULL) {
 		write(2, "ERROR LIST\n", 12);
@@ -42,5 +42,5 @@ void	exec_heredoc(t_msh *list, int if_exit)
 		exit(1);
 	}
 	close(pfd[p_read]);
-	handler(list->left, if_exit);
+	handler(list->left, if_exit, env);
 }

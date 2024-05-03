@@ -6,7 +6,7 @@
 /*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 23:05:50 by psanger           #+#    #+#             */
-/*   Updated: 2024/04/26 01:17:35 by psanger          ###   ########.fr       */
+/*   Updated: 2024/04/29 22:06:44 by psanger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	init_env(t_env **env)
 	getcwd(buffer_cwd, PATH_MAX);
 	temp = ft_strjoin("PWD=", buffer_cwd);
 	ft_export(env, temp);
-	ft_shell_lvl(env);
 	free(temp);
 	return (0);
 }
@@ -66,15 +65,17 @@ t_env	*get_env(char **env_start)
 	t_env	*env;
 	int		i;
 
+	i = 0;
 	env = NULL;
 	if (env_start == NULL || env_start[0] == NULL) {
 		init_env(&env);
 	}
-	i = 0;
-	while (env_start[i] != NULL)
-	{
-		fill_env(&env, env_start[i]);
-		i++;
+	else {
+		while (env_start[i] != NULL)
+		{
+			fill_env(&env, env_start[i]);
+			i++;
+		}
 	}
 	return (env);
 }

@@ -6,7 +6,7 @@
 #    By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 15:31:09 by ajehle            #+#    #+#              #
-#    Updated: 2024/04/26 15:01:20 by ajehle           ###   ########.fr        #
+#    Updated: 2024/05/03 13:43:42 by ajehle           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,8 @@ PARSER	=	shell.c \
 				parser_tree.c \
 				parser.c \
 				print_tree.c \
+				sorting.c \
+				tokenizer_helper_2.c \
 				tokenizer_helper.c \
 				tokenizer.c \
 
@@ -57,7 +59,8 @@ BUILTIN	=	builtins.c \
 				ft_export.c \
 				ft_export_no_args.c \
 				ft_unset.c \
-				ft_pwd.c
+				ft_pwd.c \
+				ft_cd.c
 
 SRCS	=	$(addprefix parser/, $(PARSER)) \
 			$(addprefix exec/, $(EXEC)) \

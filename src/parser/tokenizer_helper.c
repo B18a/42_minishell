@@ -6,25 +6,11 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 09:46:24 by ajehle            #+#    #+#             */
-/*   Updated: 2024/04/19 11:22:35 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/05/02 16:26:06 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-int	is_space(char c)
-{
-	if (c && c == ' ')
-		return (1);
-	return (0);
-}
-
-int	skip_spaces(char *argv, int i)
-{
-	while (argv[i] && argv[i] == ' ')
-		i++;
-	return (i);
-}
 
 t_tok	*ft_tok_new(char *content, int type)
 {

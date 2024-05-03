@@ -6,36 +6,11 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 09:42:09 by ajehle            #+#    #+#             */
-/*   Updated: 2024/04/20 13:55:49 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/05/02 16:29:11 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-int	is_unique_quote(char c)
-{
-	if (c == 34)
-		return (DQUOTE);
-	else if (c == 39)
-		return (QUOTE);
-	else
-		return (0);
-}
-int	is_unique_char(char c)
-{
-	if (c == 34)
-		return (QUOTE);
-	else if (c == 39)
-		return (DQUOTE);
-	else if (c == '|')
-		return (PIPE);
-	else if (c == '<')
-		return (INFILE);
-	else if (c == '>')
-		return (OUTFILE);
-	else
-		return (0);
-}
 
 char	*quote_string(t_input *input, int quote)
 {
@@ -101,14 +76,6 @@ int	redirect_type(t_input *input)
 	}
 	else
 		return (-1); //?????
-}
-
-int	is_special_char(char c)
-{
-	if (c == 34 || c == 39 || c == '|' || c == '>' || c == '<' || is_space(c))
-		return (1);
-	else
-		return (0);
 }
 
 char	*normal_string(t_input *input)

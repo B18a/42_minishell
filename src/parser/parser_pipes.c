@@ -6,7 +6,7 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 10:37:08 by ajehle            #+#    #+#             */
-/*   Updated: 2024/04/25 16:02:24 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/05/02 16:47:12 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ t_msh	*make_else(t_tok **tok, t_msh *temp, t_msh **dst)
 	return (temp);
 }
 
-void	handle_pipe(int *pipes_total, t_tok **tok, t_msh **temp, t_msh **last_pipe)
+void	handle_pipe(int *pipes_total, t_tok **tok, t_msh **temp,
+		t_msh **last_pipe)
 {
 	(*pipes_total)--;
 	if (*pipes_total)
@@ -61,6 +62,7 @@ void	handle_pipe(int *pipes_total, t_tok **tok, t_msh **temp, t_msh **last_pipe)
 	}
 	*tok = (*tok)->next;
 }
+
 
 t_msh	*fill_with_pipes(t_tok *tok, int pipes_total)
 {
@@ -80,25 +82,24 @@ t_msh	*fill_with_pipes(t_tok *tok, int pipes_total)
 		else
 		{
 			temp = make_else(&tok, temp, &temp->left);
-			if(!temp)
-				return(NULL);
+			if (!temp)
+				return (NULL);
 			// free
 		}
 	}
 	if (tok && pipes_total == 0)
 	{
 		temp = make_else(&tok, temp, &last_pipe->right);
-			if(!temp)
-				return(NULL);
-			// free
+		if (!temp)
+			return (NULL);
+		// free
 	}
 	while (tok)
 	{
-
 		temp = make_else(&tok, temp, &temp->left);
-			if(!temp)
-				return(NULL);
-			// free
+		if (!temp)
+			return (NULL);
+		// free
 	}
 	return (root);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:57:27 by psanger           #+#    #+#             */
-/*   Updated: 2024/04/25 16:58:35 by psanger          ###   ########.fr       */
+/*   Updated: 2024/05/03 13:37:05 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,23 +33,48 @@ char	*ft_strjoin_free(char *str, char *str2)
 	return (dest);
 }
 
+void	free_old_path(char **exe_path)
+{
+	int	i;
+
+	i = 0;
+	if(exe_path)
+	{
+		while(exe_path[i])
+		{
+			free(exe_path[i]);
+			i++;
+		}
+		free(exe_path);
+	}
+}
 
 
 char	*get_path(char *argv)
 {
-	char *env = getenv("PATH");
-	char **exe_path = ft_split(env, ':');
-	int i = 0;
-	while (exe_path[i]) {
+	char	*path;
+	char	*env;
+	char	**exe_path;
+	int	i;
+
+	i = 0;
+	env = getenv("PATH");
+	if(!env)
+		return (NULL);
+	exe_path = ft_split(env, ':');
+	while (exe_path && exe_path[i])
+	{
 		exe_path[i] = ft_strjoin_free(exe_path[i], "/");
 		exe_path[i] = ft_strjoin_free(exe_path[i], argv);
 		if (access(exe_path[i], X_OK) == 0)
 		{
-			// printf("%s\n", exe_path[i]);
-			return (exe_path[i]);
+			path = ft_strdup(exe_path[i]);
+			free_old_path(exe_path);
+			return (path);
 		}
 		i++;
 	}
+	free_old_path(exe_path);
 	printf("command not found\n");
 	return (NULL);
 }
