@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: andreasjehle <andreasjehle@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 21:05:10 by psanger           #+#    #+#             */
-/*   Updated: 2024/04/29 16:17:12 by psanger          ###   ########.fr       */
+/*   Updated: 2024/05/05 17:40:56 by andreasjehl      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	exec_heredoc(t_msh *list, int if_exit, t_env **env)
 	write(list->stdout_cpy, "> ", 2);
 	buffer = get_next_line(list->stdin_cpy);
 	while (ft_strncmp(buffer, del, ft_strlen(del) != 0)
-			|| strlen(buffer) - ft_strlen(del) != 1) {
+			|| ft_strlen(buffer) - ft_strlen(del) != 1) {
 		write(list->stdout_cpy, "> ", 2);
 		ft_putstr_fd(buffer, pfd[1]);
 		free(buffer);

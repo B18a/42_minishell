@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: andreasjehle <andreasjehle@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 11:39:23 by ajehle            #+#    #+#             */
-/*   Updated: 2024/05/03 16:00:58 by psanger          ###   ########.fr       */
+/*   Updated: 2024/05/05 17:40:42 by andreasjehl      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	signal_c_handler()
 {
 	printf("\n");
 	rl_on_new_line();
-	rl_replace_line("", 0);
+	// rl_replace_line("", 0);
 	rl_redisplay();
 }
 	// int in = dup(STDIN_FILENO);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sorting.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
+/*   By: andreasjehle <andreasjehle@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 16:20:13 by ajehle            #+#    #+#             */
-/*   Updated: 2024/05/02 16:29:50 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/05/05 18:03:05 by andreasjehl      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,9 @@ t_msh	*sort_tree_without_pipe(t_msh *root)
 			&& root->type != PIPE)
 		{
 			if (!prev)
-			{
 				swap_begin_of_tree(&start, &root);
-				// start = root->left;
-				// root->left = start->left;
-				// start->left = root;
-			}
 			else if (prev)
-			{
 				swap_mid_of_tree(&prev, &root);
-				// prev->left = root->left;
-				// root->left = root->left->left;
-				// prev->left->left = root;
-			}
 			root = start;
 		}
 		prev = root;
@@ -64,6 +54,7 @@ void	sort_tree_with_pipes(t_msh *root, int pipes_total)
 {
 	int		i;
 	t_msh	*next;
+	t_msh	*prev;
 
 	i = 0;
 	next = root;
@@ -74,5 +65,13 @@ void	sort_tree_with_pipes(t_msh *root, int pipes_total)
 		i++;
 	}
 	if (i == pipes_total)
-		next->right = sort_tree_without_pipe(next->right);
+	{
+		next = root;
+		while(next->type == PIPE)
+		{
+			prev = next;
+			next = next->right;
+		}
+		prev->right = sort_tree_without_pipe(prev->right);
+	}
 }

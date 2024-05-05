@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
+/*   By: andreasjehle <andreasjehle@student.42.f    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 09:43:00 by ajehle            #+#    #+#             */
-/*   Updated: 2024/05/03 13:49:18 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/05/05 18:02:49 by andreasjehl      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <limits.h>
+# include <ctype.h>
 
 # define BUFFER_SIZE 42
 
