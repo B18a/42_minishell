@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andreasjehle <andreasjehle@student.42.f    +#+  +:+       +#+        */
+/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 21:05:10 by psanger           #+#    #+#             */
-/*   Updated: 2024/05/05 17:40:56 by andreasjehl      ###   ########.fr       */
+/*   Updated: 2024/05/10 10:58:16 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,18 @@ void	exec_heredoc(t_msh *list, int if_exit, t_env **env)
 		exit(1);
 	}
 	char *buffer = NULL;
-	char *del = list->cmd_args[0];
+	char *temp = list->cmd_args[0];
+	char *del = ft_strjoin(temp, "\n");
 	write(list->stdout_cpy, "> ", 2);
 	buffer = get_next_line(list->stdin_cpy);
-	while (ft_strncmp(buffer, del, ft_strlen(del) != 0)
-			|| ft_strlen(buffer) - ft_strlen(del) != 1) {
+	buffer = ft_expand(buffer, env, DQUOTE);
+	while (ft_strncmp(buffer, del, ft_strlen(del) + 1) != 0)
+	{
 		write(list->stdout_cpy, "> ", 2);
 		ft_putstr_fd(buffer, pfd[1]);
 		free(buffer);
 		buffer = get_next_line(STDIN_FILENO);
+		buffer = ft_expand(buffer, env, DQUOTE);
 	}
 	if (buffer != NULL)
 		free(buffer);

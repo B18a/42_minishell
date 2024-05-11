@@ -6,7 +6,7 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 09:46:24 by ajehle            #+#    #+#             */
-/*   Updated: 2024/05/02 16:28:51 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/05/10 14:05:19 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	is_special_char(char c)
 		return (0);
 }
 
-int	is_unique_quote(char c)
+int	is_quote(char c)
 {
 	if (c == 34)
 		return (DQUOTE);

@@ -6,7 +6,7 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 12:58:16 by ajehle            #+#    #+#             */
-/*   Updated: 2024/05/02 16:42:25 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/05/10 16:16:22 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ t_msh	*parsing(t_tok *tok)
 
 	root = NULL;
 	pipes_total = get_pipes(tok);
-	printf("ANZAHL pipes_total:%i\n", pipes_total);
 	if (pipes_total == 0)
 	{
 		root = fill_without_pipe(tok);
@@ -30,8 +29,9 @@ t_msh	*parsing(t_tok *tok)
 		root = fill_with_pipes(tok, pipes_total);
 		sort_tree_with_pipes(root, pipes_total);
 	}
-	printf("END OF PARSING\n\n");
 	if (tok)
 		free_mem(tok);
+	if (!root)
+		return (NULL);
 	return (root);
 }

@@ -6,7 +6,7 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 09:10:46 by ajehle            #+#    #+#             */
-/*   Updated: 2024/05/02 16:03:50 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/05/10 10:45:08 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	is_cmd(char *arg)
 		return (0);
 }
 
-char	*ft_str_cmd_join(char const *s1, char const *s2)
+char	*ft_join_with_space(char const *s1, char const *s2)
 {
 	char	*join;
 	size_t	len1;
@@ -49,7 +49,6 @@ char	*ft_str_cmd_join(char const *s1, char const *s2)
 
 	len1 = 0;
 	len2 = 0;
-	printf("s1 %s	|	s2 %s\n", s1, s2);
 	if (s1)
 		len1 = ft_strlen(s1);
 	if (s2)
@@ -57,7 +56,6 @@ char	*ft_str_cmd_join(char const *s1, char const *s2)
 	join = (char *)malloc(sizeof(char) * (len1 + len2 + 2));
 	if (!join)
 		return (NULL);
-	printf("s11 %s	|	s22 %s\n", s1, s2);
 	if (len1)
 	{
 		ft_strlcpy(join, s1, len1 + 1);
@@ -65,7 +63,6 @@ char	*ft_str_cmd_join(char const *s1, char const *s2)
 	}
 	if (len2)
 		ft_strlcpy(&join[len1 + 1], s2, len2 + 1);
-	printf("JOINED STRING %s\n", join);
 	return (join);
 }
 

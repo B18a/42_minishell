@@ -6,7 +6,7 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 10:54:31 by ajehle            #+#    #+#             */
-/*   Updated: 2024/05/02 16:01:41 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/05/10 10:41:17 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void	free_args(char **args)
 	int	i;
 
 	i = 0;
-	if (args)
+	if (args != NULL)
 	{
-		while (args[i])
+		while (args[i] != NULL)
 		{
 			free(args[i]);
 			i++;
@@ -36,8 +36,10 @@ void	free_tree(t_msh *root)
 		free(root->cmd_path);
 	if (root->cmd_args)
 		free_args(root->cmd_args);
-	free_tree(root->left);
-	free_tree(root->right);
+	if (root->left != NULL)
+		free_tree(root->left);
+	if (root->right != NULL)
+		free_tree(root->right);
 	free(root);
 	return ;
 }

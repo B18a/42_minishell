@@ -6,7 +6,7 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:57:27 by psanger           #+#    #+#             */
-/*   Updated: 2024/05/03 13:37:05 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/05/10 10:56:41 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,12 @@
 
 char	*ft_strjoin_free(char *str, char *str2)
 {
-	int	i = 0;
-	int	j = 0;
+	int		i;
+	int		j;
 	char	*dest;
+
+	i = 0;
+	j = 0;
 	dest = malloc(sizeof(char) * (ft_strlen(str) + ft_strlen(str2) + 1));
 	while (str[i] != '\0')
 	{
@@ -38,9 +41,9 @@ void	free_old_path(char **exe_path)
 	int	i;
 
 	i = 0;
-	if(exe_path)
+	if (exe_path)
 	{
-		while(exe_path[i])
+		while (exe_path[i])
 		{
 			free(exe_path[i]);
 			i++;
@@ -49,17 +52,17 @@ void	free_old_path(char **exe_path)
 	}
 }
 
-
 char	*get_path(char *argv)
 {
 	char	*path;
 	char	*env;
 	char	**exe_path;
-	int	i;
+	int		i;
 
 	i = 0;
 	env = getenv("PATH");
-	if(!env)
+	// env = expander("PATH", env);
+	if (!env)
 		return (NULL);
 	exe_path = ft_split(env, ':');
 	while (exe_path && exe_path[i])
@@ -75,6 +78,5 @@ char	*get_path(char *argv)
 		i++;
 	}
 	free_old_path(exe_path);
-	printf("command not found\n");
 	return (NULL);
 }

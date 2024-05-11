@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andreasjehle <andreasjehle@student.42.f    +#+  +:+       +#+        */
+/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 09:43:00 by ajehle            #+#    #+#             */
-/*   Updated: 2024/05/05 18:02:49 by andreasjehl      ###   ########.fr       */
+/*   Updated: 2024/05/10 22:42:25 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <limits.h>
-# include <ctype.h>
 
 # define BUFFER_SIZE 42
 
@@ -54,6 +53,11 @@
 # define CMD 70
 # define BUILTIN 80
 
+
+// int stdin_cpy;
+// int stdout_cpy;
+
+
 typedef struct s_input
 {
 	char			*line;
@@ -75,14 +79,14 @@ typedef struct s_msh
 	int				type;
 	struct s_msh	*left;
 	struct s_msh	*right;
-	// -> cmd	+ text    args[0] = "ls" args[1] = "-la" args[2] = NULL
+	struct s_msh	*root;
 	char			**cmd_args;
 	char			*cmd_path;
 
 
 	int				stdin_cpy;
 	int				stdout_cpy;
-	bool			exec;// -> typ redirect
+	char			*exec;
 }					t_msh;
 
 typedef struct s_env
@@ -104,7 +108,7 @@ void	free_args(char	**args);
 // get_input
 void				free_mem(t_tok *tok);
 int					check_for_buildins(char *str);
-void				handle_tokens(t_tok *tok);
+void				handle_tokens(t_tok *tok, int exit_code, t_env **env);
 
 // get path
 char				*get_path(char *argv);
@@ -115,12 +119,20 @@ char				*ft_strjoin_free(char *str, char *str2);
 int					is_redirect(int type);
 int					is_option(char *c);
 int					is_cmd(char *arg);
-char				*ft_str_cmd_join(char const *s1, char const *s2);
+char				*ft_join_with_space(char const *s1, char const *s2);
 int					get_pipes(t_tok *tok);
 
 // parser_tree
 t_msh				*create_new(int type, char *content);
 t_msh				*make_branch(t_tok **tok);
+
+// parser_tree_helper
+char				**ft_split_first_word(char	*str, char c);
+char				*ft_join_without_space(char const *s1, char const *s2);
+char				*combine_cmd(char *old, char *add, int type);
+char				*ft_strdup_space(const char *s1);
+char				*erase_space(char *str);
+
 
 // parser_no_pipe
 t_msh				*fill_without_pipe(t_tok *tok);
@@ -150,7 +162,7 @@ void				sort_tree_with_pipes(t_msh *root, int pipes_total);
 int					is_space(char c);
 int					skip_spaces(char *argv, int i);
 int					is_special_char(char c);
-int					is_unique_quote(char c);
+int					is_quote(char c);
 int					is_unique_char(char c);
 
 // tokenizer helper
@@ -166,44 +178,62 @@ char				*normal_string(t_input *input);
 t_tok				*tokenizer(char *argv);
 
 // expander
-// void				expander(t_tok *tok);
+char				*ft_expand(char *argv, t_env **env, int type);
+char				*get_res(char *argv, t_env **env, char *res);
+int					get_res_len(char *argv, t_env **env);
+
+// expander helper
+void				increase_values(int *a, int *b);
+void				init_values(int *a, int *b);
+int					is_allowed_char(char c);
 
 // exec
-void	handler(t_msh *list, int if_exit, t_env **env);
-void	minishell_exec(t_msh *list, t_env **env);
-void	exec_pipe_write(int *pfd);
-void	exec_pipe_read(int *pfd);
-void	exec_cmd(t_msh *list);
-void	exec_last_cmd(t_msh *list, int if_exit, t_env **env);
-void	exec_outfile(t_msh *list, int if_exit, t_env **env);
-void	exec_infile(t_msh *list, int if_exit, t_env **env);
-void	exec_heredoc(t_msh *list, int if_exit, t_env **env);
-void	exec_append(t_msh *list, int if_exit, t_env **env);
-int		exec_builtin_child(t_msh *list, int if_exit, t_env **env);
-int		exec_builtin_parent(t_msh *list, int if_exit, t_env **env);
+int					minishell_exec(t_msh *list, t_env **env);
+
+int					handler(t_msh *list, int if_exit, t_env **env);
+void				exec_pipe_write(int pipe_read, int pipe_write);
+void				exec_pipe_read(int pipe_read, int pipe_write);
+void				exec_cmd(t_msh *list, t_env **env);
+void				exec_last_cmd(t_msh *list, int if_exit, t_env **env, int pid, int pipe_read, int pipe_write);
+void				exec_outfile(t_msh *list, int if_exit, t_env **env);
+void				exec_infile(t_msh *list, int if_exit, t_env **env);
+void				exec_heredoc(t_msh *list, int if_exit, t_env **env);
+void				exec_append(t_msh *list, int if_exit, t_env **env);
+int					exec_builtin(t_msh *list, int if_exit, t_env **env);
 
 
 // get_next_line
-char	*get_next_line(int fd);
+char				*get_next_line(int fd);
 
-// builtins / env
 
-t_env	*get_env(char **env_start);
-void	env_free(t_env *env);
+// free
+void				mid_free_exit_child(int exit_code, t_env ** env, t_msh *list);
 
-void	env_lstadd_back(t_env **lst, t_env *new);
-t_env	*env_lstlast(t_env *lst);
-void	env_lstadd_front(t_env **lst, t_env *new);
-char	*get_key(char *argv);
-char	*expander(char *key, t_env **env);
-int		ft_shell_lvl(t_env **env);
+// env helper funktions
+t_env				*get_env(char **env_start);
+void				env_free(t_env *env);
+void				env_lstadd_back(t_env **lst, t_env *new);
+t_env				*env_lstlast(t_env *lst);
+void				env_lstadd_front(t_env **lst, t_env *new);
+char				*get_key(char *argv);
+char				*expander(char *key, t_env **env);
+int					ft_shell_lvl(t_env **env);
+char				*expander_pre_exec(t_env **env, char *argv);
 
-int	ft_env(t_env **env);
-int	ft_export(t_env **env, char *argv);
-int	ft_export_no_args(t_env **env);
-int	ft_unset(t_env **env, char *argv);
-int	ft_cd(t_env **env, char *dir);
-int	ft_pwd(void);
+// builtins
+int					ft_env(t_env **env, char **argv);
+int					ft_export(t_env **env, char *argv);
+int					ft_export_no_args(t_env **env);
+int					ft_unset(t_env **env, char *argv);
+int					ft_cd(t_env **env, char *dir);
+int					ft_pwd(void);
+int					ft_echo(char **argv);
+int					ft_exit(char **argv, t_env **env, t_msh *list, int i);
+
+void				open_quotes(t_input *input, char quote);
+void				mid_free_exit(int exit_code, t_env ** env, t_msh *root);
+
 
 
 #endif
+

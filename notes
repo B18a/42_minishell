@@ -1,16 +1,21 @@
-ls > make a infinite loop
+// geht
+ls > make a infinite loop✅
+// 02.05.2024
+ls | grep a >> file //segfault! und komischer output manchmal, muss mehrmals probiert werden!
+ls -al | grep Make >> file✅
+ls -al | grep s >> file✅
+cd✅
+> test✅
+sortiertung letzter branch rechts✅
+
+
+
+
+// geht nicht:
+
 > | segfault
 free tree causes segfault when the same command is executed a few times
 
-
-// 02.05.2024
-ls | grep a >> file //segfault! und komischer output manchmal, muss mehrmals probiert werden!
-
-// geht nicht:
-ls -al | grep Make >> file
-ls -al | grep s >> file
-cd
-> test
 
 
 /*
@@ -26,27 +31,27 @@ int main ( void ) {
 */
 		check input valid (pipe am ende)
 
-		heredoc 		// cpy stdin / out
-		EXIT codes		// exec part $?
-		cat | cat | ls	// exec part
 
-		Builtin 		// exit
-		Builtin 		// echo
-		expander in ""
-		offene ""
+		exit codes nochmal anschauen $? passt
 
-		bei ctrl c prozesse beenden
-		minishell: nicht nochmal ausgeben
 
-		sortiertung letzter branch rechts
+		// expander in ""	wie zB	text"test" muss 1 token werden
 
-		expander in heredoc
+		signals in child sind noch nicht ganz korrekt
+
 
 		norm
-		leaks
+		leaks --> baum in kind fallen, gib dem ne axt und den baum anfang child braucht zugriff auf root node
 
 
 
 
+hello""world -> geht nicht
 
 
+
+Test  55: ❌ cat minishell.h | grep ");"$ --> tokenizer
+Test  63: ❌ cat <./minishell_tester/test_files/infile_big ./minishell_tester/test_files/infile
+
+
+Test  61: ❌ echo <"./minishell_tester/test_files/infile" "bonjour       42"

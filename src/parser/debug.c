@@ -6,7 +6,7 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 09:46:21 by ajehle            #+#    #+#             */
-/*   Updated: 2024/04/27 12:13:51 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/05/11 00:20:34 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ void	ft_print_tok(t_tok *tok)
 	while (tok)
 	{
 		printf("ELEMENT	NBR	:	%i\n", i);
-		printf("TYPE		:	%s\n", return_true_type(tok->type));
-		printf("CONTENT		:	%s\n", tok->content);
+		printf("TYPE		:	|%s|\n", return_true_type(tok->type));
+		printf("CONTENT		:	|%s|\n", tok->content);
 		printf("-------------------------------------------\n");
 		tok = tok->next;
 		i++;
@@ -67,13 +67,13 @@ void	print_2d_arr(char **arr)
 	{
 		while (arr[i])
 		{
-			printf("				[%i]	", i);
+			printf("				[%i]	|", i);
 			while (arr[i][j])
 			{
 				printf("%c", arr[i][j]);
 				j++;
 			}
-			printf("\n");
+			printf("|\n");
 			j = 0;
 			i++;
 		}

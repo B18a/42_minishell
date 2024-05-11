@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_append.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 21:53:56 by psanger           #+#    #+#             */
-/*   Updated: 2024/05/03 15:38:28 by psanger          ###   ########.fr       */
+/*   Updated: 2024/05/10 10:56:54 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 void	exec_append(t_msh *list, int if_exit, t_env **env)
 {
-	fprintf(stderr, "\033[0;32m TEST\n\033[0m\n");
-	int fd;
+	int	fd;
 
 	if (list == NULL)
 	{
@@ -29,7 +28,7 @@ void	exec_append(t_msh *list, int if_exit, t_env **env)
 		exit(1);
 	}
 	dup2(fd, STDOUT_FILENO);
-	close (fd);
+	close(fd);
 	handler(list->left, if_exit, env);
 	return ;
 }

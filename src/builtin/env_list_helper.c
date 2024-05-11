@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_list_helper.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 23:47:19 by psanger           #+#    #+#             */
-/*   Updated: 2024/04/26 00:18:52 by psanger          ###   ########.fr       */
+/*   Updated: 2024/05/10 10:59:25 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ t_env	*env_lstlast(t_env *lst)
 	else
 		return (env_lstlast(lst->next));
 }
-
 
 void	env_lstadd_back(t_env **lst, t_env *new)
 {

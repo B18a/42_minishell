@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_input.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 17:05:44 by ajehle            #+#    #+#             */
-/*   Updated: 2024/05/03 15:26:59 by psanger          ###   ########.fr       */
+/*   Updated: 2024/05/11 09:38:37 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,34 +43,48 @@ int	check_for_buildins(char *str)
 	return (0);
 }
 
-void	handle_tokens(t_tok *tok)
+void	handle_tokens(t_tok *tok, int exit_code, t_env **env)
 {
 	while (tok)
 	{
 		if (tok->type == DQUOTE || tok->type == QUOTE)
-		{
-			// expanden?
-		}
+		// {
+			tok->content = ft_expand(tok->content, env, tok->type);
+			// tok->type = CMD;
+			// test for splitting!!!
+		// }
 		else if (tok->type == ARG)
 		{
-			if (!ft_strncmp(tok->content, "$?\n", 3))
+			if (!ft_strncmp(tok->content, "$?", 3))
 			{
-				// ?????????????????
-				printf("ARG IS $?\n");
+				tok->content = ft_itoa(exit_code);
 				tok->type = CMD;
 			}
 			else if (check_for_buildins(tok->content))
 			{
-				printf("ARG IS BUILDIN\n");
+				tok->content = ft_expand(tok->content, env, tok->type);
 				tok->type = BUILTIN;
 			}
 			else
 			{
+				tok->content = ft_expand(tok->content, env, tok->type);
 				tok->type = CMD;
 			}
 		}
 		tok = tok->next;
 	}
+}
+// dollar darf kein einzelner token sein und muss im expander zum exit code verwandelt werden
+
+void	add_root_node(t_msh *list, t_msh *root)
+{
+	if (!list)
+		return ;
+	list->root = root;
+	if (root->cmd_args)
+		add_root_node(list->left, root);
+	add_root_node(list->right, root);
+	return ;
 }
 
 void	get_input(t_env **env)
@@ -78,7 +92,9 @@ void	get_input(t_env **env)
 	t_tok	*tok;
 	t_msh	*root;
 	char	*line;
+	int		exit_code;
 
+	exit_code = 0;
 	tok = NULL;
 	root = NULL;
 	line = NULL;
@@ -91,17 +107,14 @@ void	get_input(t_env **env)
 		{
 			add_history(line);
 			tok = tokenizer(line);
-			handle_tokens(tok);
-			// ft_print_tok(tok);
-			// printf("------\n");
-			// expander(tok);
+			handle_tokens(tok, exit_code, env);
+														// ft_print_tok(tok);
 			root = parsing(tok);
+														// print_tree(root);
+			add_root_node(root, root);
 			if (root)
 			{
-				printf("------------------\n\n\n\n\n");
-				print_tree(root);
-				printf("------------------\n\n\n");
-				minishell_exec(root, env);
+				exit_code = minishell_exec(root, env);
 				free_tree(root);
 			}
 			free(line);
@@ -109,4 +122,3 @@ void	get_input(t_env **env)
 		}
 	}
 }
-

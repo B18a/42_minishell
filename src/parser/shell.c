@@ -3,77 +3,76 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: andreasjehle <andreasjehle@student.42.f    +#+  +:+       +#+        */
+/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 11:39:23 by ajehle            #+#    #+#             */
-/*   Updated: 2024/05/05 17:40:42 by andreasjehl      ###   ########.fr       */
+/*   Updated: 2024/05/10 23:28:01 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void	signal_c_handler()
+void	signal_c_handler(int signum)
 {
 	printf("\n");
 	rl_on_new_line();
-	// rl_replace_line("", 0);
+	rl_replace_line("", 0);
 	rl_redisplay();
 }
-	// int in = dup(STDIN_FILENO);
-	// int out = dup(STDOUT_FILENO);
 
-	// // t_msh *cmd_left1 = malloc(sizeof(t_msh));
-	// // null_struct_2(cmd_left1, in, out);
-	// // cmd_left1->type = BUILTIN;
-	// // cmd_left1->cmd_args = malloc(sizeof(char *) * 3);
-	// // cmd_left1->cmd_args[0] = "export";
-	// // cmd_left1->cmd_args[1] = NULL;
-
-	// // t_msh *outfile_1 = malloc(sizeof(t_msh));
-	// // null_struct_2(outfile_1, in, out);
-	// // outfile_1->type = OUTFILE;
-	// // outfile_1->cmd_args = malloc(sizeof(char *) * 2);
-	// // outfile_1->cmd_args[0] = "test1";
-	// // outfile_1->cmd_args[1] = NULL;
-	// // outfile_1->exec = TRUE;
-
-	// t_msh *pipe = malloc(sizeof(t_msh));
-	// null_struct_2(pipe, in, out);
-	// pipe->type = PIPE;
-	// pipe->cmd_args = NULL;
-	// pipe->exec = NULL;
-	// pipe->left = NULL;
-	// pipe->right = NULL;
-
-	// t_msh *cmd_left1 = malloc(sizeof(t_msh));
-	// null_struct_2(cmd_left1, in, out);
-	// cmd_left1->type = CMD;
-	// cmd_left1->cmd_args = malloc(sizeof(char *) * 2);
-	// cmd_left1->cmd_args[0] = "cat";
-	// cmd_left1->cmd_args[1] = NULL;
-	// cmd_left1->cmd_path = get_path(cmd_left1->cmd_args[0]);
+void	free_test(t_msh *test)
+{
+	if (test == NULL)
+		return ;
+	free_test(test->left);
+	free_test(test->right);
+	if (test->cmd_path)
+		free(test->cmd_path);
+	if (test->cmd_args)
+		free(test->cmd_args);
+	free(test);
+}
 
 
-	// t_msh *cmd_left2 = malloc(sizeof(t_msh));
-	// null_struct_2(cmd_left2, in, out);
-	// cmd_left2->type = CMD;
-	// cmd_left2->cmd_args = malloc(sizeof(char *) * 2);
-	// cmd_left2->cmd_args[0] = "cat";
-	// cmd_left2->cmd_args[1] = "h";
-	// cmd_left2->cmd_args[1] = NULL;
-	// cmd_left2->cmd_path = get_path(cmd_left2->cmd_args[0]);
+
+t_msh	*get_list()
+{
+
+	t_msh *infile = malloc(sizeof(t_msh));
+	infile->cmd_args = malloc(sizeof(char *) * 2);
+	infile->cmd_args[0] = "file";
+	infile->cmd_args[1] = NULL;
+	infile->cmd_path = NULL;
+	// infile->exec = "cat";
+	infile->left = NULL;
+	infile->right = NULL;
+	infile->type = INFILE;
 
 
-	// pipe->left = cmd_left1;
-	// pipe->right = cmd_left2;
+	t_msh *cmd1 = malloc(sizeof(t_msh));
+	cmd1->cmd_args = malloc(sizeof(char *) * 3);
+	cmd1->cmd_args[0] = "cat";
+	cmd1->cmd_args[1] = "notes";
+	cmd1->cmd_args[2] = NULL;
+	cmd1->cmd_path = get_path(cmd1->cmd_args[0]);
+	// cmd1->exec = "cat";
+	cmd1->left = NULL;
+	cmd1->right = NULL;
+	cmd1->type = CMD;
 
-	// return (pipe);
+	infile->left = cmd1;
+
+	print_tree(infile);
+	return (infile);
+}
+
 
 
 int	main(int argc, char **argv, char **env_start)
 {
-	t_env *env;
+	t_env	*env;
 
+	env = NULL;
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, signal_c_handler);
 	if (argc != 1)
@@ -83,11 +82,8 @@ int	main(int argc, char **argv, char **env_start)
 	}
 	env = get_env(env_start);
 	ft_shell_lvl(&env);
-	// t_msh *test = get_list_2();
-
-
+	// minishell_exec(get_list(), &env);
 	get_input(&env);
-	// minishell_exec(test, &env);
-	// expander("PWD", env);
+	env_free(env);
 	return (0);
 }

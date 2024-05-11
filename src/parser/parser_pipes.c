@@ -6,7 +6,7 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 10:37:08 by ajehle            #+#    #+#             */
-/*   Updated: 2024/05/02 16:47:12 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/05/10 16:18:33 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,13 @@ t_msh	*create_pipes(int pipes)
 	i = 0;
 	root = create_new(PIPE, "NULL");
 	if (!root)
-		return (printf("create new pipe root - empty\n"), NULL);
+		return (NULL);
 	temp = root;
 	while (i < pipes - 1)
 	{
 		new = create_new(PIPE, "NULL");
 		if (!new)
-		{
-			free_tree(root);
-			return (printf("create new pipe - empty\n"), NULL);
-		}
+			return (free_tree(root), NULL);
 		temp->right = new;
 		temp = new;
 		i++;
@@ -45,7 +42,7 @@ t_msh	*make_else(t_tok **tok, t_msh *temp, t_msh **dst)
 
 	new = make_branch(tok);
 	if (!new)
-		return (printf("fill with pipes - new is NULL\n"), NULL);
+		return (NULL);
 	*dst = new;
 	temp = new;
 	return (temp);
@@ -63,7 +60,6 @@ void	handle_pipe(int *pipes_total, t_tok **tok, t_msh **temp,
 	*tok = (*tok)->next;
 }
 
-
 t_msh	*fill_with_pipes(t_tok *tok, int pipes_total)
 {
 	t_msh	*root;
@@ -72,7 +68,7 @@ t_msh	*fill_with_pipes(t_tok *tok, int pipes_total)
 
 	root = create_pipes(pipes_total);
 	if (!root)
-		return (printf("fill with pipes - root is NULL\n"), NULL);
+		return (NULL);
 	temp = root;
 	last_pipe = root;
 	while (tok && pipes_total)
@@ -83,23 +79,20 @@ t_msh	*fill_with_pipes(t_tok *tok, int pipes_total)
 		{
 			temp = make_else(&tok, temp, &temp->left);
 			if (!temp)
-				return (NULL);
-			// free
+				return (free_tree(root), NULL);
 		}
 	}
 	if (tok && pipes_total == 0)
 	{
 		temp = make_else(&tok, temp, &last_pipe->right);
 		if (!temp)
-			return (NULL);
-		// free
+			return (free_tree(root), NULL);
 	}
 	while (tok)
 	{
 		temp = make_else(&tok, temp, &temp->left);
 		if (!temp)
-			return (NULL);
-		// free
+			return (free_tree(root), NULL);
 	}
 	return (root);
 }

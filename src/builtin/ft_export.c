@@ -6,7 +6,7 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 00:22:59 by psanger           #+#    #+#             */
-/*   Updated: 2024/05/03 13:50:29 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/05/10 22:44:42 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	check_old_keys(char *key, char *argv, t_env *curr)
 	return (0);
 }
 
+// export mit dritter variable um argv zum free'n?
 
 int	ft_export(t_env **env, char *argv)
 {
@@ -68,19 +69,14 @@ int	ft_export(t_env **env, char *argv)
 	t_env	*curr;
 	t_env	*new_node;
 
-	if (argv == NULL) {
-		ft_export_no_args(env);
-		return (0);
-	}
+	if (argv == NULL)
+		return (ft_export_no_args(env), 0);
 	key = get_key(argv);
-	if (key == NULL) {
-		return (0);
-	}
+	if (key == NULL)
+		return (1);
 	curr = *env;
 	if (check_old_keys(key, argv, curr) > 0)
-	{
 		return (0);
-	}
 	else if (check_key(key) == 1 && argv[ft_strlen(key)] == '=')
 	{
 		new_node = export_get_new_node(key, argv);

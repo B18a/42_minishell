@@ -6,7 +6,7 @@
 /*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 00:05:02 by psanger           #+#    #+#             */
-/*   Updated: 2024/04/26 01:17:24 by psanger          ###   ########.fr       */
+/*   Updated: 2024/05/06 22:51:28 by psanger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,9 @@ int	ft_shell_lvl(t_env **env)
 	return (0);
 }
 
-int	ft_env(t_env **env)
+int	ft_env(t_env **env, char **args)
 {
+
 	t_env *curr;
 
 	curr = *env;
@@ -50,5 +51,7 @@ int	ft_env(t_env **env)
 		printf("%s\n", curr->value);
 		curr = curr->next;
 	}
+	if (args[1] != NULL)
+		return (127);
 	return (0);
 }

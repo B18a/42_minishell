@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 23:05:50 by psanger           #+#    #+#             */
-/*   Updated: 2024/04/29 22:06:44 by psanger          ###   ########.fr       */
+/*   Updated: 2024/05/10 10:59:16 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,11 @@ char	*get_key(char *argv)
 
 int	fill_env(t_env **env, char *argv)
 {
-	t_env *new_node;
+	t_env	*new_node;
 
 	new_node = malloc(sizeof(t_env));
 	new_node->value = malloc(sizeof(char) * (ft_strlen(argv) + 1));
 	ft_strlcpy(new_node->value, argv, (ft_strlen(argv) + 1));
-
 	new_node->key = get_key(argv);
 	new_node->next = NULL;
 	env_lstadd_back(env, new_node);
@@ -67,10 +66,12 @@ t_env	*get_env(char **env_start)
 
 	i = 0;
 	env = NULL;
-	if (env_start == NULL || env_start[0] == NULL) {
+	if (env_start == NULL || env_start[0] == NULL)
+	{
 		init_env(&env);
 	}
-	else {
+	else
+	{
 		while (env_start[i] != NULL)
 		{
 			fill_env(&env, env_start[i]);
