@@ -6,7 +6,7 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 11:37:04 by ajehle            #+#    #+#             */
-/*   Updated: 2024/05/02 16:33:43 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/05/18 11:44:35 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	print_tree_rec(t_msh *root, int level)
 		return ;
 	}
 	print_tabs(level);
-	printf("TYPE:%s PATH:%s\n", return_true_type(root->type), root->cmd_path);
+	printf("TYPE:%s\n\tPATH:%s\n\tcmd->args[0]:%s\n\tcmd->args[1]:%s\n\n", return_true_type(root->type), root->cmd_path, root->cmd_args[0], root->cmd_args[1]);
 	print_tabs(level);
 	print_2d_arr(root->cmd_args);
 	print_tabs(level);
@@ -50,4 +50,5 @@ void	print_tree(t_msh *root)
 {
 	print_tree_rec(root, 0);
 	printf("\n");
+	printf("%s----------------END---------------------------%s\n",RED,RESET);
 }

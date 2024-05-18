@@ -3,83 +3,256 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expand.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
+/*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 23:02:09 by psanger           #+#    #+#             */
-/*   Updated: 2024/05/10 15:48:36 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/05/15 21:17:25 by psanger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	get_res_len(char *argv, t_env **env)
-{
-	char	*temp[2];
-	int		len;
-	int		i;
-	int		j;
+// int	get_res_len(char *argv, t_env **env, int exit_code)
+// {
+// 	char *temp1;
+// 	char *temp2;
+// 	int	len;
+// 	int i;
+// 	int j;
 
-	init_values(&i, &j);
+// 	i = 0;
+// 	j = 0;
+// 	len = 0;
+// 	while (argv[i] != '\0')
+// 	{
+// 		if (argv[i] == '$' && argv[i + 1] != '\0' && argv[i + 1] != ' ' && argv[i + 1] != '\'' && argv[i + 1] != '\"' && argv[i + 1] != '\n')
+// 		{
+// 			if (argv[i + 1] == '?')
+// 			{
+// 				i += 2;
+// 				len += ft_strlen(ft_itoa(exit_code));
+// 			}
+// 			else
+// 			{
+// 				while (argv[i] != '\0' && argv[i] != ' ' && argv[i] != '\'' && argv[i] != '\"' && argv[i] != '\n') {
+// 					j++;
+// 					i++;
+// 				}
+// 				temp1 = ft_substr(argv, i - j + 1, j - 1);
+// 				temp2 = expander(temp1, env);
+// 				len += ft_strlen(temp2);
+// 				if (temp1 != NULL)
+// 					free(temp1);
+// 				if (temp2 != NULL)
+// 					free(temp2);
+// 				j = 0;
+// 			}
+// 		}
+// 		i++;
+// 		len++;
+// 	}
+// 	return (len);
+// }
+
+// void	cpy_exit_code(int exit_code, char *res, int *index, int *k)
+// {
+// 	char	*temp;
+// 	int		m;
+// 	int		i;
+
+// 	i = *k;
+// 	m = 0;
+// 	temp = NULL;
+// 	*index += 2;
+// 	temp = ft_itoa(exit_code);
+// 	while (temp[m] != '\0')
+// 	{
+// 		res[i] = temp[m];
+// 		k++;
+// 		i++;
+// 	}
+// 	*k = i;
+// }
+
+// void	cpy_expander(int *k, int *i, char *argv, t_env **env, char *res)
+// {
+// 	char	*temp[2];
+// 	int		index[4];
+
+	// index[0] = 0;
+	// index[1] = 0;
+	// index[2] = *i;
+	// index[3] = *k;
+// 	while (argv[index[2]] != '\0' && argv[index[2]] != ' '
+// 			&& argv[index[2]] != '\'' && argv[index[2]] != '\"' && argv[index[2]] != '\n') {
+// 		index[1]++;
+// 		index[2]++;
+// 	}
+// 	temp[0] = ft_substr(argv, index[2] - index[1] + 1, index[1] - 1);
+// 	temp[1] = expander(temp[0], env);
+// 	if (temp[0] != NULL)
+// 		free(temp[0]);
+// 	if (temp[1] != NULL)
+// 	{
+// 		while (temp[1][index[0]++] != '\0')
+// 			res[index[3]++] = temp[1][index[0]];
+// 		free(temp[1]);
+// 	}
+// 	*i = index[2];
+// 	*k = index[3];
+// }
+
+
+// char	*get_res(char *argv, t_env **env, char *res, int exit_code)
+// {
+// 	int k;
+// 	int i;
+// 	int j;
+
+// 	i = 0;
+// 	j = 0;
+// 	k = 0;
+// 	while (argv[i] != '\0')
+// 	{
+// 		if (argv[i] == '$' && argv[i + 1] != '\0' && argv[i + 1] != ' ' && argv[i + 1] != '\'' && argv[i + 1] != '\"' && argv[i + 1] != '\n')
+// 		{
+// 			if (argv[i + 1] == '?')
+// 				cpy_exit_code(exit_code, res, &i, &k);
+// 			else
+// 				cpy_expander(&k, &i, argv, env, res);
+// 		}
+// 		res[k] = argv[i];
+// 		i++;
+// 		k++;
+// 	}
+// 	res[k] = '\0';
+// 	return (res);
+// }
+
+// char	*ft_expand(char *argv, t_env **env, int type, int exit_code)
+// {
+// 	char *res;
+// 	int	size;
+
+// 	size = 0;
+// 	res = NULL;
+// 	if (type == QUOTE)
+// 		return (argv);
+// 	size = get_res_len(argv, env, exit_code);
+// 	res = malloc(sizeof(char) * (size + 1));
+// 	res = get_res(argv, env, res, exit_code);
+// 	free(argv);
+// 	return (res);
+// }
+
+int	get_res_len(char *argv, t_env **env, int exit_code)
+{
+	char *temp1;
+	char *temp2;
+	int	len;
+	int i;
+	int j;
+
+	i = 0;
+	j = 0;
 	len = 0;
 	while (argv[i] != '\0')
 	{
-		if (argv[i] == '$')
+		if (argv[i] == '$' && argv[i + 1] != '\0' && argv[i + 1] != ' ' && argv[i + 1] != '\'' && argv[i + 1] != '\"' && argv[i + 1] != '\n')
 		{
-			while (is_allowed_char(argv[i]))
-				increase_values(&j, &i);
-			temp[0] = ft_substr(argv, i - j + 1, j - 1);
-			temp[1] = expander(temp[0], env);
-			len += ft_strlen(temp[1]);
-			if (temp[0] != NULL)
-				free(temp[0]);
-			if (temp[1] != NULL)
-				free(temp[1]);
-			j = 0;
+			if (argv[i + 1] == '?')
+			{
+				i += 2;
+				len += ft_strlen(ft_itoa(exit_code));
+			}
+			else
+			{
+				while (argv[i] != '\0' && argv[i] != ' ' && argv[i] != '\'' && argv[i] != '\"' && argv[i] != '\n') {
+					j++;
+					i++;
+				}
+				temp1 = ft_substr(argv, i - j + 1, j - 1);
+				temp2 = expander(temp1, env);
+				len += ft_strlen(temp2);
+				if (temp1 != NULL)
+					free(temp1);
+				if (temp2 != NULL)
+					free(temp2);
+				j = 0;
+			}
 		}
-		increase_values(&i, &len);
+		i++;
+		len++;
 	}
 	return (len);
 }
 
-void	get_res_helper(char **temp, int *count, char *res)
+char	*get_res(char *argv, t_env **env, char *res, int exit_code)
 {
-	while ((temp[1])[count[3]] != '\0')
-	{
-		res[count[2]] = temp[1][count[3]];
-		increase_values(&(count[2]), &(count[3]));
-	}
-	free(temp[1]);
-}
+	char *temp1;
+	char *temp2;
+	char *temp3;
+	int k;
+	int	len;
+	int i;
+	int j;
+	int	l;
+	int m;
 
-char	*get_res(char *argv, t_env **env, char *res)
-{
-	char	*temp[2];
-	int		count[4];
-
-	init_values(&(count[0]), &(count[1]));
-	init_values(&(count[2]), &(count[3]));
-	while (argv[count[0]] != '\0')
+	m = 0;
+	i = 0;
+	j = 0;
+	len = 0;
+	k = 0;
+	l = 0;
+	while (argv[i] != '\0')
 	{
-		if (argv[count[0]] == '$')
+		if (argv[i] == '$' && argv[i + 1] != '\0' && argv[i + 1] != ' ' && argv[i + 1] != '\'' && argv[i + 1] != '\"' && argv[i + 1] != '\n')
 		{
-			while (is_allowed_char(argv[count[0]]))
-				increase_values(&(count[0]), &(count[1]));
-			temp[0] = ft_substr(argv, count[0] - count[1] + 1, count[1] - 1);
-			temp[1] = expander(temp[0], env);
-			if (temp[0] != NULL)
-				free(temp[0]);
-			if (temp[1] != NULL)
-				get_res_helper(temp, count, res);
-			init_values(&(count[1]), &(count[3]));
+			if (argv[i + 1] == '?')
+			{
+				i += 2;
+				temp3 = ft_itoa(exit_code);
+				while (temp3[m] != '\0')
+				{
+					res[k] = temp3[m];
+					k++;
+					m++;
+				}
+			}
+			else
+			{
+				while (argv[i] != '\0' && argv[i] != ' ' && argv[i] != '\'' && argv[i] != '\"' && argv[i] != '\n') {
+					j++;
+					i++;
+				}
+				temp1 = ft_substr(argv, i - j + 1, j - 1);
+				temp2 = expander(temp1, env);
+				len += ft_strlen(temp2);
+				if (temp1 != NULL)
+					free(temp1);
+				if (temp2 != NULL)
+				{
+					while (temp2[l] != '\0') {
+						res[k] = temp2[l];
+						k++;
+						l++;
+					}
+					free(temp2);
+				}
+				j = 0;
+				l = 0;
+			}
 		}
-		res[count[2]] = argv[count[0]];
-		increase_values(&(count[0]), &(count[2]));
+		res[k] = argv[i];
+		i++;
+		k++;
 	}
-	res[count[2]] = '\0';
+	res[k] = '\0';
 	return (res);
 }
 
-char	*ft_expand(char *argv, t_env **env, int type)
+char	*ft_expand(char *argv, t_env **env, int type, int exit_code)
 {
 	char	*res;
 	int		size;
@@ -87,9 +260,9 @@ char	*ft_expand(char *argv, t_env **env, int type)
 	res = NULL;
 	if (type == QUOTE)
 		return (argv);
-	size = get_res_len(argv, env);
+	size = get_res_len(argv, env, exit_code);
 	res = malloc(sizeof(char) * (size + 1));
-	res = get_res(argv, env, res);
+	res = get_res(argv, env, res, exit_code);
 	free(argv);
 	return (res);
 }

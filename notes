@@ -43,6 +43,10 @@ int main ( void ) {
 		norm
 		leaks --> baum in kind fallen, gib dem ne axt und den baum anfang child braucht zugriff auf root node
 
+sortierung von builtins;
+
+
+// ./tester extras
 
 
 
@@ -51,7 +55,4 @@ hello""world -> geht nicht
 
 
 Test  55: ❌ cat minishell.h | grep ");"$ --> tokenizer
-Test  63: ❌ cat <./minishell_tester/test_files/infile_big ./minishell_tester/test_files/infile
-
-
-Test  61: ❌ echo <"./minishell_tester/test_files/infile" "bonjour       42"
+Test  63: ❌ cat <./test_files/infile_big ./test_files/infile

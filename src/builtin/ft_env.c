@@ -6,7 +6,7 @@
 /*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 00:05:02 by psanger           #+#    #+#             */
-/*   Updated: 2024/05/06 22:51:28 by psanger          ###   ########.fr       */
+/*   Updated: 2024/05/11 17:07:58 by psanger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,13 @@ int	ft_shell_lvl(t_env **env)
 
 int	ft_env(t_env **env, char **args)
 {
-
 	t_env *curr;
 
 	curr = *env;
+	if (args[1] != NULL) {
+		putstr_fd("env: ", args[1], ": No such file or directory\n", 2);
+		return (127);
+	}
 	while (curr != NULL)
 	{
 		printf("%s\n", curr->value);

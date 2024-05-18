@@ -6,7 +6,7 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 00:22:59 by psanger           #+#    #+#             */
-/*   Updated: 2024/05/10 22:44:42 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/05/17 15:47:41 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ int	check_key(char *key)
 
 	i = 0;
 	if (isalpha(key[i]) != 1 && key[0] != '_')
-	{
 		return (0);
-	}
 	while (key[i] != '\0')
 	{
 		if (isalnum(key[i]) != 1 || key[i] == '_')
@@ -72,8 +70,11 @@ int	ft_export(t_env **env, char *argv)
 	if (argv == NULL)
 		return (ft_export_no_args(env), 0);
 	key = get_key(argv);
-	if (key == NULL)
+	if (check_key(key) == 0) {
+		// free key was missing
+		free(key);
 		return (1);
+	}
 	curr = *env;
 	if (check_old_keys(key, argv, curr) > 0)
 		return (0);
@@ -83,5 +84,6 @@ int	ft_export(t_env **env, char *argv)
 		env_lstadd_back(env, new_node);
 		return (0);
 	}
+	free(key);
 	return (0);
 }

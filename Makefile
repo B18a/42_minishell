@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+         #
+#    By: psanger <psanger@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 15:31:09 by ajehle            #+#    #+#              #
-#    Updated: 2024/05/10 15:55:01 by ajehle           ###   ########.fr        #
+#    Updated: 2024/05/16 21:25:35 by psanger          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,6 +65,10 @@ SRCS	:=		shell.c \
 				ft_echo.c \
 				ft_exit.c \
 				mid_exit_free.c \
+				helper_func.c \
+				tokenizer_psanger.c \
+				split_with_quotes.c \
+				join_two_d_arr.c \
 
 # Colors
 YELLOW := "\033[0;33m"

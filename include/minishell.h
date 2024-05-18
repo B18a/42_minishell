@@ -6,7 +6,7 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 09:43:00 by ajehle            #+#    #+#             */
-/*   Updated: 2024/05/10 22:42:25 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/05/18 11:48:38 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <limits.h>
+
+
+#define BLUE "\033[0;34m"
+#define RESET "\033[0m"
+#define RED "\033[0;31m"
 
 # define BUFFER_SIZE 42
 
@@ -73,6 +78,15 @@ typedef struct s_tok
 	struct s_tok	*next;
 
 }					t_tok;
+
+typedef struct s_tok_ps
+{
+	int				type;
+	int				syntax_error;
+	char			**content;
+	struct s_tok_ps	*next;
+
+}					t_tok_ps;
 
 typedef struct s_msh
 {
@@ -178,9 +192,9 @@ char				*normal_string(t_input *input);
 t_tok				*tokenizer(char *argv);
 
 // expander
-char				*ft_expand(char *argv, t_env **env, int type);
-char				*get_res(char *argv, t_env **env, char *res);
-int					get_res_len(char *argv, t_env **env);
+char				*ft_expand(char *argv, t_env **env, int type, int exit_code);
+char				*get_res(char *argv, t_env **env, char *res, int exit_code);
+int					get_res_len(char *argv, t_env **env, int exit_code);
 
 // expander helper
 void				increase_values(int *a, int *b);
@@ -195,10 +209,10 @@ void				exec_pipe_write(int pipe_read, int pipe_write);
 void				exec_pipe_read(int pipe_read, int pipe_write);
 void				exec_cmd(t_msh *list, t_env **env);
 void				exec_last_cmd(t_msh *list, int if_exit, t_env **env, int pid, int pipe_read, int pipe_write);
-void				exec_outfile(t_msh *list, int if_exit, t_env **env);
-void				exec_infile(t_msh *list, int if_exit, t_env **env);
-void				exec_heredoc(t_msh *list, int if_exit, t_env **env);
-void				exec_append(t_msh *list, int if_exit, t_env **env);
+int					exec_outfile(t_msh *list, int if_exit, t_env **env);
+int					exec_infile(t_msh *list, int if_exit, t_env **env);
+int					exec_heredoc(t_msh *list, int if_exit, t_env **env);
+int					exec_append(t_msh *list, int if_exit, t_env **env);
 int					exec_builtin(t_msh *list, int if_exit, t_env **env);
 
 
@@ -232,7 +246,17 @@ int					ft_exit(char **argv, t_env **env, t_msh *list, int i);
 
 void				open_quotes(t_input *input, char quote);
 void				mid_free_exit(int exit_code, t_env ** env, t_msh *root);
+void				putstr_fd(char *s1, char *s2, char *s3, int fd);
 
+
+
+t_tok	*tokenizer_psanger(char *argv, t_env **env, int exit_code);
+void	combine_tokens(t_tok *tok);
+char	**split_with_quotes(char *argv, char c);
+char	**join_two_d_arr(char **str1, char **str2);
+
+char	**cpy_two_d_arr(int len, char **str1, char **str2);
+int		get_two_d_arr_len(char **str1, char **str2);
 
 
 #endif

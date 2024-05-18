@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
+/*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 11:39:23 by ajehle            #+#    #+#             */
-/*   Updated: 2024/05/10 23:28:01 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/05/16 22:18:24 by psanger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	signal_c_handler(int signum)
 {
+	exit(0);
 	printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);

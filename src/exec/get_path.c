@@ -6,7 +6,7 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:57:27 by psanger           #+#    #+#             */
-/*   Updated: 2024/05/10 10:56:41 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/05/18 11:40:49 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ char	*get_path(char *argv)
 	int		i;
 
 	i = 0;
+	if (argv == NULL)
+		return (NULL);
 	env = getenv("PATH");
 	// env = expander("PATH", env);
 	if (!env)

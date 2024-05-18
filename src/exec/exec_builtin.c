@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
+/*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 13:44:30 by psanger           #+#    #+#             */
-/*   Updated: 2024/05/10 10:56:59 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/05/15 21:04:30 by psanger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,13 @@ int	exec_builtin(t_msh *list, int if_exit, t_env **env)
 	}
 	else if (ft_strncmp(list->cmd_args[0], "unset", 6) == 0)
 	{
-		// printf("\033[0;32m %s : %d\033[0m\n", list->cmd_args[0], if_exit);
 		while (list->cmd_args[++i] != NULL)
 			exit_code = ft_unset(env, list->cmd_args[i]);
 	}
 	else if (ft_strncmp(list->cmd_args[0], "exit", 6) == 0)
 		exit_code = ft_exit(list->cmd_args, env, list, -1);
 	if (if_exit == CMD)
-		exit(exit_code);
-	// mid_exit(exit_code);
+		mid_free_exit(exit_code, env, list->root);
 	else if (if_exit == BUILTIN)
 		return (exit_code);
 	return (0);

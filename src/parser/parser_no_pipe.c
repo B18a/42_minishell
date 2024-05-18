@@ -6,7 +6,7 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 10:36:42 by ajehle            #+#    #+#             */
-/*   Updated: 2024/05/10 16:17:02 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/05/18 12:42:03 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ t_msh	*fill_without_pipe(t_tok *tok)
 
 	if (tok == NULL)
 		return (NULL);
-	if ((ft_strncmp(tok->content, "", 1) == 0))
-		tok = tok->next;
+	// if ((ft_strncmp(tok->content, "", 1) == 0))
+	// 	tok = tok->next;
 	root = make_branch(&tok);
 	if (!root)
 		return (NULL);

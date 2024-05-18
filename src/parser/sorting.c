@@ -6,7 +6,7 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 16:20:13 by ajehle            #+#    #+#             */
-/*   Updated: 2024/05/11 09:46:57 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/05/18 11:56:09 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,54 +25,41 @@ void	swap_mid_of_tree(t_msh **prev, t_msh **root)
 	(*root)->left = (*root)->left->left;
 	(*prev)->left->left = (*root);
 }
+
+
 void	combine_token_cmd(t_msh **branch)
 {
-		t_msh	*cmd;
-		t_msh	*prev;
-		t_msh	*cur;
-		char	*new;
-		char	*old;
-		int		i;
-		int		flag = 0;;
+	t_msh	*cmd;
+	t_msh	*cur;
+	t_msh	*temp;
 
-		i = 0;
-		cur = *branch;
-		new = NULL;
-		old = new;
-		// if(cur && cur->type != CMD)
-		if(cur && (cur->type != CMD || cur->type != BUILTIN))
-			cur = cur->left;
-		// if(cur && cur->type == CMD)
-		if(cur && (cur->type == CMD || cur->type == BUILTIN))
-			cmd = cur;
-		// while(cur && cur->type == CMD)
-		while(cur && (cur->type == CMD || cur->type == BUILTIN))
-		{
-			// printf("CMD |%s|\n",cur->cmd_args[0]);
-			while(cur->cmd_args && cur->cmd_args[i])
-			{
-				new = ft_strjoin(old," ");
-				free(old);
-				old = new;
-				new = ft_strjoin(old,cur->cmd_args[i]);
-				free(old);
-				old = new;
-				i++;
-			}
-			i = 0;
-			prev = cur;
-			cur = cur->left;
-			prev->left = NULL;
-			flag = 1;
-		// printf("TOKEN CMD NEW|%s|\n",new);
-		}
-		// printf("TOKEN CMD NEW|%s|\n",new);
-		// // free(cmd->cmd_args);
-		// cmd->cmd_args = NULL;
-		if(flag)
-			cmd->cmd_args = ft_split(new, ' ');
-		// // free_tree(cmd->left);
-		// cmd->left = NULL;
+	cur = *branch;
+	while(cur && cur->type != CMD && cur->type != BUILTIN)
+		cur = cur->left;
+	if(cur && (cur->type == CMD || cur->type == BUILTIN))
+		cmd = cur;
+	cur = cur->left;
+	while(cur && (cur->type == CMD || cur->type == BUILTIN))
+	{
+		cmd->cmd_args = join_two_d_arr(cmd->cmd_args, cur->cmd_args);
+		cur = cur->left;
+	}
+	// if(check_for_buildins(cmd->cmd_args[0]) == 1)
+	// {
+	// 	cmd->type = BUILTIN;
+	// 	free(cmd->cmd_path);
+	// 	cmd->cmd_path = NULL;
+	// }
+	// if(cmd->type != BUILTIN)
+	// {
+	// 	free(cmd->cmd_path);
+	// 	cmd->cmd_path = get_path(cmd->cmd_args[0]);
+	// }
+	if (cmd->left != NULL)
+	{
+		free_tree(cmd->left);
+		cmd->left = NULL;
+	}
 }
 
 t_msh	*sort_tree_without_pipe(t_msh *root)
@@ -81,24 +68,28 @@ t_msh	*sort_tree_without_pipe(t_msh *root)
 	t_msh	*prev;
 
 	start = root;
+	// print_tree(start);
 	prev = NULL;
 	while (root && root->left)
 	{
-		if (!is_redirect(root->type) && is_redirect(root->left->type)
-			&& root->type != PIPE)
+		if (!is_redirect(root->type) && is_redirect(root->left->type) && root->type != PIPE)
 		{
 			if (!prev)
 				swap_begin_of_tree(&start, &root);
 			else if (prev)
 				swap_mid_of_tree(&prev, &root);
+			// printf("root is start %s\n",return_true_type(start->type));
 			root = start;
+			prev = NULL;
 		}
-		prev = root;
-		root = root->left;
+		else
+		{
+			prev = root;
+			root = root->left;
+		}
 	}
-															// print_tree(start);
+	print_tree(start);
 	combine_token_cmd(&start);
-															// print_tree(start);
 	return (start);
 }
 

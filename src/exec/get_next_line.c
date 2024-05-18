@@ -6,7 +6,7 @@
 /*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 11:39:46 by psanger           #+#    #+#             */
-/*   Updated: 2024/04/25 17:08:01 by psanger          ###   ########.fr       */
+/*   Updated: 2024/05/14 23:02:40 by psanger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ char	*get_line_ps(char *line)
 	new_line = ft_substr(line, 0, (i + temp));
 	if (new_line == NULL)
 		return (NULL);
-	if (new_line [0] == '\0')
+	if (new_line[0] == '\0')
 	{
 		free(new_line);
 		new_line = NULL;
 	}
-	free (line);
+	free(line);
 	line = NULL;
 	return (new_line);
 }
@@ -56,7 +56,7 @@ char	*get_remainder(char *line)
 	new_remainder = ft_substr(line, (i + 1), (line_len - i));
 	if (new_remainder == NULL)
 		return (NULL);
-	if (new_remainder [0] == '\0')
+	if (new_remainder[0] == '\0')
 	{
 		free(new_remainder);
 		new_remainder = NULL;
@@ -71,14 +71,14 @@ char	*func(char *remainder, char *buffer)
 	new_remainder = ft_strjoin(remainder, buffer);
 	if (new_remainder == NULL)
 		return (NULL);
-	free (remainder);
+	free(remainder);
 	remainder = NULL;
 	return (new_remainder);
 }
 
 char	*get_buffer(char *remainder, char *buffer, int fd)
 {
-	int		charsread;
+	int	charsread;
 
 	charsread = 1;
 	while (charsread != 0)
@@ -94,7 +94,7 @@ char	*get_buffer(char *remainder, char *buffer, int fd)
 		if (remainder == NULL)
 			return (NULL);
 		remainder = func(remainder, buffer);
-		if (ft_strchr (buffer, '\n'))
+		if (ft_strchr(buffer, '\n'))
 			break ;
 	}
 	return (remainder);
@@ -114,10 +114,10 @@ char	*get_next_line(int fd)
 	line = get_buffer(remainder, buffer, fd);
 	if (line == NULL)
 	{
-		free (remainder);
+		free(remainder);
 		remainder = NULL;
 	}
-	free (buffer);
+	free(buffer);
 	buffer = NULL;
 	remainder = get_remainder(line);
 	line = get_line_ps(line);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
+/*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 23:05:50 by psanger           #+#    #+#             */
-/*   Updated: 2024/05/10 10:59:16 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/05/15 21:02:27 by psanger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ char	*get_key(char *argv)
 	j = 0;
 	while (argv[i] != '\0' && argv[i] != '=')
 		i++;
-	if (argv[i] == '\0')
-		return (NULL);
 	key = malloc(sizeof(char) * (i + 1));
+	if (key == NULL)
+		return (NULL);
 	while (j < i)
 	{
 		key[j] = argv[j];
