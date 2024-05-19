@@ -12,7 +12,7 @@
 
 #include "../include/minishell.h"
 
-void	init_new(t_msh *new)
+void	init_new_msh(t_msh *new)
 {
 	new->cmd_args = NULL;
 	new->cmd_path = NULL;
@@ -36,7 +36,7 @@ t_msh	*create_new(int type, char *content)
 		// ???
 		return (NULL);
 	}
-	init_new(new);
+	init_new_msh(new);
 	new->type = type;
 	if (content )
 	{
