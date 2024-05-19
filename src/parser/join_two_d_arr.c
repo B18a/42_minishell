@@ -82,7 +82,7 @@ char	**join_two_d_arr(char **str1, char **str2)
 	len = 0;
 	len = get_two_d_arr_len(str1, str2);
 	res = cpy_two_d_arr(len, str1, str2);
-	print_2d_arr(res);
+	// print_2d_arr(res);
 	free_args(str1);
 	return (res);
 }

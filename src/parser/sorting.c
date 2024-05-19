@@ -88,7 +88,7 @@ t_msh	*sort_tree_without_pipe(t_msh *root)
 			root = root->left;
 		}
 	}
-	print_tree(start);
+	// print_tree(start);
 	combine_token_cmd(&start);
 	return (start);
 }

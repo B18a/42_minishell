@@ -103,18 +103,18 @@ void	get_input(t_env **env)
 	tok_ps = NULL;
 	root = NULL;
 	line = NULL;
-// while (1)
-// {
-	// line = readline("minishell:");
+while (1)
+{
+	line = readline("minishell:");
 		// line = ft_strdup("ls | grep o > out");
-		line = ft_strdup("ls | > out");
+		// line = ft_strdup("ls | > out");
 		// line = ft_strdup("ls");
 		// line = ft_strdup(" ");
 		if (line == NULL)
 			return ;
 		if (line)
 		{
-// add_history(line);
+add_history(line);
 
 
 			handle_tokens(tok, exit_code, env);
@@ -123,7 +123,7 @@ void	get_input(t_env **env)
 			root = parsing(tok);
 			// if(root)
 			// {
-			// 	free(root);
+			// free_tree(root);
 			// 	root = NULL;
 			// }
 
@@ -133,11 +133,11 @@ void	get_input(t_env **env)
 			if (root)
 			{
 				add_root_node(root, root);
-				// exit_code = minishell_exec(root, env);
-				free(root);
+				exit_code = minishell_exec(root, env);
+				free_tree(root);
 				root = NULL;
 			}
 			rl_on_new_line();
-// }
+}
 	}
 }

@@ -30,26 +30,26 @@ t_msh	*create_new(int type, char *content)
 
 	new = NULL;
 	new = (t_msh *)malloc(sizeof(t_msh));
-	// if (!new)
-	// {
-	// 	printf("Allocation create_new failed\n");
-	// 	// ???
-	// 	return (NULL);
-	// }
+	if (!new)
+	{
+		printf("Allocation create_new failed\n");
+		// ???
+		return (NULL);
+	}
 	init_new(new);
-	// new->type = type;
-	// if (content )
-	// {
-	// 	new->cmd_args = malloc(sizeof(char *) * 2);
-	// 	new->cmd_args[0] = ft_strdup(content);
-	// 	new->cmd_args[1] = NULL;
-	// 	if (type == CMD && new->cmd_args)
-	// 		new->cmd_path = get_path(new->cmd_args[0]);
-	// }
-	// if (new->type == HEREDOC || new->type == BUILTIN) {
-	// 	new->stdin_cpy = dup(STDIN_FILENO);
-	// 	new->stdout_cpy = dup(STDOUT_FILENO);
-	// }
+	new->type = type;
+	if (content )
+	{
+		new->cmd_args = malloc(sizeof(char *) * 2);
+		new->cmd_args[0] = ft_strdup(content);
+		new->cmd_args[1] = NULL;
+	 	if (type == CMD && new->cmd_args)
+	 		new->cmd_path = get_path(new->cmd_args[0]);
+	}
+	if (new->type == HEREDOC || new->type == BUILTIN) {
+		new->stdin_cpy = dup(STDIN_FILENO);
+		new->stdout_cpy = dup(STDOUT_FILENO);
+	 }
 	return (new);
 }
 
@@ -65,6 +65,8 @@ t_msh	*make_branch(t_tok **tok)
 	if (tok)
 	{
 			branch = create_new((*tok)->type, (*tok)->content);
+													//	branch = (t_msh *)malloc(sizeof(t_msh));
+													//	init_new(branch);
 		// if (is_redirect((*tok)->type))
 		// {
 		// }

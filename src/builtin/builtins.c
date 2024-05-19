@@ -17,6 +17,9 @@ int	init_env(t_env **env)
 	char	buffer_cwd[PATH_MAX];
 	char	*temp;
 
+	(*env)->key = NULL;
+	(*env)->value = NULL;
+	(*env)->next = NULL;
 	getcwd(buffer_cwd, PATH_MAX);
 	temp = ft_strjoin("PWD=", buffer_cwd);
 	ft_export(env, temp);
@@ -58,6 +61,7 @@ int	fill_env(t_env **env, char *argv)
 	env_lstadd_back(env, new_node);
 	return (0);
 }
+
 
 t_env	*get_env(char **env_start)
 {

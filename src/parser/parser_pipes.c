@@ -48,7 +48,7 @@ t_msh	*make_else(t_tok **tok, t_msh *temp, t_msh **dst)
 	return (temp);
 }
 
-void	handle_pipe(int *pipes_total, t_tok **tok, t_msh **temp,
+void	next_pipe(int *pipes_total, t_tok **tok, t_msh **temp,
 		t_msh **last_pipe)
 {
 	(*pipes_total)--;
@@ -74,10 +74,10 @@ t_msh	*fill_with_pipes(t_tok *tok, int pipes_total)
 	while (tok && pipes_total)
 	{
 		if (tok->type == PIPE)
-			handle_pipe(&pipes_total, &tok, &temp, &last_pipe);
+			next_pipe(&pipes_total, &tok, &temp, &last_pipe);
 		else
 		{
-			temp = make_else(&tok, temp, &temp->left);
+			 temp = make_else(&tok, temp, &temp->left);
 			if (!temp)
 				return (free_tree(root), NULL);
 		}

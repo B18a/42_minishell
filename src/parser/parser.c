@@ -25,12 +25,12 @@ t_msh	*parsing(t_tok *tok)
 	if (pipes_total == 0)
 	{
 		root = fill_without_pipe(tok);
-		// root = sort_tree_without_pipe(root);
+		root = sort_tree_without_pipe(root);
 	}
 	else if (pipes_total >= 1)
 	{
 		root = fill_with_pipes(tok, pipes_total);
-		// sort_tree_with_pipes(root, pipes_total);
+		sort_tree_with_pipes(root, pipes_total);
 	}
 	if (!root)
 		return (NULL);
