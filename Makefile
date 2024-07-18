@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: psanger <psanger@student.42.fr>            +#+  +:+       +#+         #
+#    By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/08 15:31:09 by ajehle            #+#    #+#              #
-#    Updated: 2024/05/16 21:25:35 by psanger          ###   ########.fr        #
+#    Updated: 2024/05/24 23:06:28 by ajehle           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,9 +16,8 @@ NAME				:= minishell
 CC					:= cc
 REMOVE				:= rm -rf
 SRC_DIR				:= src
-CFLAGS				:=  -I include
+CFLAGS				:=  -I include -Wall -Werror -Wextra
 LIBREADLINE			:= -lreadline
-#-Wall -Werror -Wextra
 VPATH	:=	src \
 			src/builtin \
 			src/exec \
@@ -34,7 +33,6 @@ SRCS	:=		shell.c \
 				parser_no_pipe.c \
 				parser_pipes.c \
 				parser_tree.c \
-				parser_tree_helper.c \
 				parser.c \
 				print_tree.c \
 				sorting.c \
@@ -69,6 +67,16 @@ SRCS	:=		shell.c \
 				tokenizer_psanger.c \
 				split_with_quotes.c \
 				join_two_d_arr.c \
+				signals_in_child.c \
+				cpy_input_tok.c \
+				new_input_len.c \
+				expand_input.c \
+				tokenizer_psanger_helper.c \
+				expander_get_new_len.c \
+				expander_cpy.c \
+				check_tok.c \
+				get_tok_str.c \
+				handle_heredoc.c \
 
 # Colors
 YELLOW := "\033[0;33m"
@@ -98,7 +106,6 @@ $(FT_LIBFT) :
 # INTERNAL OBJECT
 OBJ_DIR	:= obj
 OBJECTS	:= $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
-# OBJECTS	= $(addprefix src/, $(notdir $(SRCS:.c=.o)))
 
 # INTERNAL RULE
 $(NAME) : $(LIBS_NAME) $(OBJECTS)
@@ -109,7 +116,7 @@ $(NAME) : $(LIBS_NAME) $(OBJECTS)
 
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(OBJ_DIR)
-	@$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -g -c $< -o $@
 
 all :  $(NAME)
 

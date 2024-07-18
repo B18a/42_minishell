@@ -6,11 +6,27 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 10:54:31 by ajehle            #+#    #+#             */
-/*   Updated: 2024/05/18 12:15:19 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/05/23 21:22:17 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+
+void	free_mem(t_tok *tok)
+{
+	if (tok)
+	{
+		if (tok->next)
+			free_mem(tok->next);
+		if (tok->content)
+		{
+			free(tok->content);
+			tok->content = NULL;
+		}
+		free(tok);
+		tok = NULL;
+	}
+}
 
 void	free_args(char **args)
 {
@@ -38,7 +54,8 @@ void	free_tree(t_msh *root)
 		free_tree(root->left);
 	if (root->right != NULL)
 		free_tree(root->right);
-	if (root->type == BUILTIN) {
+	if (root->type == BUILTIN)
+	{
 		close(root->stdin_cpy);
 		close(root->stdout_cpy);
 	}

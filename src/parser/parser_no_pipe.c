@@ -6,13 +6,13 @@
 /*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 10:36:42 by ajehle            #+#    #+#             */
-/*   Updated: 2024/05/18 12:42:03 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/05/23 15:34:33 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-t_msh	*fill_without_pipe(t_tok *tok)
+t_msh	*fill_without_pipe(t_tok *tok, t_env **env)
 {
 	t_msh	*new;
 	t_msh	*root;
@@ -20,15 +20,13 @@ t_msh	*fill_without_pipe(t_tok *tok)
 
 	if (tok == NULL)
 		return (NULL);
-	// if ((ft_strncmp(tok->content, "", 1) == 0))
-	// 	tok = tok->next;
-	root = make_branch(&tok);
+	root = make_branch(&tok, env);
 	if (!root)
 		return (NULL);
 	temp = root;
 	while (root && tok)
 	{
-		new = make_branch(&tok);
+		new = make_branch(&tok, env);
 		if (!new)
 			return (free_tree(root), NULL);
 		while (temp->left)

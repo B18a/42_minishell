@@ -6,7 +6,7 @@
 /*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 23:05:50 by psanger           #+#    #+#             */
-/*   Updated: 2024/05/15 21:02:27 by psanger          ###   ########.fr       */
+/*   Updated: 2024/05/22 20:35:56 by psanger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,6 @@ int	init_env(t_env **env)
 	char	buffer_cwd[PATH_MAX];
 	char	*temp;
 
-	(*env)->key = NULL;
-	(*env)->value = NULL;
-	(*env)->next = NULL;
 	getcwd(buffer_cwd, PATH_MAX);
 	temp = ft_strjoin("PWD=", buffer_cwd);
 	ft_export(env, temp);
@@ -30,22 +27,13 @@ int	init_env(t_env **env)
 char	*get_key(char *argv)
 {
 	int		i;
-	int		j;
 	char	*key;
 
 	i = 0;
-	j = 0;
+	key = NULL;
 	while (argv[i] != '\0' && argv[i] != '=')
 		i++;
-	key = malloc(sizeof(char) * (i + 1));
-	if (key == NULL)
-		return (NULL);
-	while (j < i)
-	{
-		key[j] = argv[j];
-		j++;
-	}
-	key[j] = '\0';
+	key = ft_substr(argv, 0, i);
 	return (key);
 }
 
@@ -54,14 +42,12 @@ int	fill_env(t_env **env, char *argv)
 	t_env	*new_node;
 
 	new_node = malloc(sizeof(t_env));
-	new_node->value = malloc(sizeof(char) * (ft_strlen(argv) + 1));
-	ft_strlcpy(new_node->value, argv, (ft_strlen(argv) + 1));
+	new_node->value = ft_strdup(argv);
 	new_node->key = get_key(argv);
 	new_node->next = NULL;
 	env_lstadd_back(env, new_node);
 	return (0);
 }
-
 
 t_env	*get_env(char **env_start)
 {

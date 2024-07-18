@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_infile.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 20:10:04 by psanger           #+#    #+#             */
-/*   Updated: 2024/05/17 13:28:28 by psanger          ###   ########.fr       */
+/*   Updated: 2024/05/24 21:30:44 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,5 @@ int	exec_infile(t_msh *list, int if_exit, t_env **env)
 	if (dup2(fd, STDIN_FILENO) < 0)
 		exit(1);
 	close(fd);
-	return (handler(list->left, if_exit, env));
+	return (handler(list->left, if_exit, env, list->root));
 }
-// output nochmal anschauen bei fd < 0

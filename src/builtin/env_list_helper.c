@@ -3,14 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   env_list_helper.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
+/*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 23:47:19 by psanger           #+#    #+#             */
-/*   Updated: 2024/05/10 10:59:25 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/05/23 21:10:12 by psanger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+void	free_env_helper(t_env *prev)
+{
+	if (!prev)
+		return ;
+	free(prev->value);
+	prev->value = NULL;
+	free(prev->key);
+	prev->key = NULL;
+	free(prev);
+}
 
 void	env_free(t_env *env)
 {
@@ -24,17 +35,11 @@ void	env_free(t_env *env)
 	while (curr != NULL)
 	{
 		if (prev != NULL)
-		{
-			free(prev->value);
-			free(prev->key);
-			free(prev);
-		}
+			free_env_helper(prev);
 		prev = curr;
 		curr = curr->next;
 	}
-	free(prev->value);
-	free(prev->key);
-	free(prev);
+	free_env_helper(prev);
 }
 
 void	env_lstadd_front(t_env **lst, t_env *new)

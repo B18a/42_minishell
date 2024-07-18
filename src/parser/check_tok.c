@@ -1,39 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*   check_tok.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/26 01:38:04 by psanger           #+#    #+#             */
-/*   Updated: 2024/05/24 17:35:26 by psanger          ###   ########.fr       */
+/*   Created: 2024/05/23 22:31:02 by psanger           #+#    #+#             */
+/*   Updated: 2024/05/23 22:42:08 by psanger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	ft_unset(t_env **env, char *argv)
+void	check_tok(t_tok **tok)
 {
-	t_env	*curr;
-	t_env	*prev;
+	t_tok	*curr;
 
-	curr = *env;
-	prev = NULL;
+	curr = *tok;
+	if (!curr)
+		return ;
 	while (curr != NULL)
 	{
-		if (ft_strncmp(argv, curr->key, ft_strlen(argv) + 1) == 0)
+		if (curr->type == PIPE)
 		{
-			if (prev == NULL)
-				*env = curr->next;
-			else
-				prev->next = curr->next;
-			free(curr->value);
-			free(curr->key);
-			free(curr);
-			return (0);
+			if (curr->next == NULL || curr->next->type == PIPE)
+			{
+				free_mem(*tok);
+				*tok = NULL;
+				printf("syntax error\n");
+				return ;
+			}
 		}
-		prev = curr;
 		curr = curr->next;
 	}
-	return (0);
+	return ;
 }

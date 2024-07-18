@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 11:39:46 by psanger           #+#    #+#             */
-/*   Updated: 2024/05/14 23:02:40 by psanger          ###   ########.fr       */
+/*   Updated: 2024/05/24 00:21:09 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,22 +123,3 @@ char	*get_next_line(int fd)
 	line = get_line_ps(line);
 	return (line);
 }
-// int	main(void)
-// {
-// 	char	*line;
-// 	int		fd;
-
-// 	fd = open("test.txt", O_RDONLY);
-// 	if (fd == -1)
-// 		return (1);
-// 	line = get_next_line(fd);
-// 	printf("line 1 |%s|\n", line);
-// 	line = get_next_line(fd);
-// 	printf("line 2 |%s|\n", line);
-// 	line = get_next_line(fd);
-// 	printf("line 3 |%s|\n", line);
-// 	line = get_next_line(fd);
-// 	printf("line 4 |%s|\n", line);
-// 	close(fd);
-// 	return (0);
-// }

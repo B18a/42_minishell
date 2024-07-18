@@ -3,14 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_no_args.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
+/*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 01:19:47 by psanger           #+#    #+#             */
-/*   Updated: 2024/05/10 11:05:08 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/05/24 17:27:31 by psanger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+void	print_export_val(char *argv)
+{
+	int	i;
+
+	i = 0;
+	if (argv == NULL)
+		return ;
+	printf("declare -x ");
+	while (argv[i] != '\0' && argv[i] != '=')
+	{
+		printf("%c", argv[i]);
+		i++;
+	}
+	if (argv[i] == '=')
+	{
+		printf("=");
+		i++;
+	}
+	printf("\"");
+	while (argv[i] != '\0')
+	{
+		printf("%c", argv[i]);
+		i++;
+	}
+	printf("\"\n");
+}
 
 t_env	*get_env_copy(t_env **env)
 {
@@ -48,7 +75,8 @@ int	sort_env_cpy(t_env *env_cpy)
 	curr = env_cpy;
 	while (curr->next != NULL)
 	{
-		if (ft_strncmp(curr->value, curr->next->value, ft_strlen(curr->value) + 1) > 0)
+		if (ft_strncmp(curr->value, curr->next->value, ft_strlen(curr->value)
+				+ 1) > 0)
 		{
 			temp = curr->value;
 			curr->value = curr->next->value;
@@ -66,6 +94,8 @@ int	ft_export_no_args(t_env **env)
 	t_env	*env_cpy;
 	t_env	*prev;
 
+	if (env == NULL || *env == NULL)
+		return (0);
 	env_cpy = get_env_copy(env);
 	sort_env_cpy(env_cpy);
 	prev = NULL;
@@ -76,7 +106,7 @@ int	ft_export_no_args(t_env **env)
 			free(prev->value);
 			free(prev);
 		}
-		printf("declare -x \"%s\"\n", env_cpy->value);
+		print_export_val(env_cpy->value);
 		prev = env_cpy;
 		env_cpy = env_cpy->next;
 	}

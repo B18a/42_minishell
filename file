@@ -1,9 +1,0 @@
-Makefile
-Makefile
-drwxr-xr-x   3 ajehle  2023_heilbronn    102 May  3 14:28 .vscode
-drwxr-xr-x   3 ajehle  2023_heilbronn    102 Apr 26 11:34 libs
--rwxr-xr-x   1 ajehle  2023_heilbronn  72552 May  8 09:51 minishell
--rw-r--r--   1 ajehle  2023_heilbronn    791 May  3 16:16 notes
-drwxr-xr-x   5 ajehle  2023_heilbronn    170 Apr 26 14:38 src
--rw-r--r--   1 ajehle  2023_heilbronn      0 May  3 13:34 test
--rw-r--r--   1 ajehle  2023_heilbronn   3148 May  3 14:28 Makefile

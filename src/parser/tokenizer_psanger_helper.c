@@ -1,39 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*   tokenizer_psanger_helper.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/26 01:38:04 by psanger           #+#    #+#             */
-/*   Updated: 2024/05/24 17:35:26 by psanger          ###   ########.fr       */
+/*   Created: 2024/05/22 16:52:12 by psanger           #+#    #+#             */
+/*   Updated: 2024/05/22 16:52:49 by psanger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	ft_unset(t_env **env, char *argv)
+int	is_special(char c)
 {
-	t_env	*curr;
-	t_env	*prev;
+	if (c == '|' || c == '>' || c == '<')
+		return (1);
+	else
+		return (0);
+}
 
-	curr = *env;
-	prev = NULL;
-	while (curr != NULL)
-	{
-		if (ft_strncmp(argv, curr->key, ft_strlen(argv) + 1) == 0)
-		{
-			if (prev == NULL)
-				*env = curr->next;
-			else
-				prev->next = curr->next;
-			free(curr->value);
-			free(curr->key);
-			free(curr);
-			return (0);
-		}
-		prev = curr;
-		curr = curr->next;
-	}
+int	get_redirect_type(char *input)
+{
+	if (ft_strncmp(input, ">", 2) == 0)
+		return (OUTFILE);
+	if (ft_strncmp(input, ">>", 3) == 0)
+		return (APPEND);
+	if (ft_strncmp(input, "<", 2) == 0)
+		return (INFILE);
+	if (ft_strncmp(input, "<<", 3) == 0)
+		return (HEREDOC);
 	return (0);
 }

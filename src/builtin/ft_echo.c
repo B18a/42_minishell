@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 13:45:11 by psanger           #+#    #+#             */
-/*   Updated: 2024/05/07 20:02:45 by psanger          ###   ########.fr       */
+/*   Updated: 2024/05/24 19:58:50 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,10 @@ int	ft_echo(char **argv)
 
 	i = 1;
 	new_line = 1;
-
-	if (argv[1] == NULL) {
-		printf("\n");
-		return (0);
-	}
-	if (ft_strncmp(argv[1], "-n", 3) == 0) {
+	if (argv[1] == NULL)
+		return (printf("\n"), 0);
+	if (ft_strncmp(argv[1], "-n", 3) == 0)
+	{
 		new_line = 0;
 		i++;
 	}

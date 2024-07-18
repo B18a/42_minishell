@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
+/*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 00:22:59 by psanger           #+#    #+#             */
-/*   Updated: 2024/05/17 15:47:41 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/05/24 17:29:16 by psanger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,31 +17,30 @@ int	check_key(char *key)
 	int	i;
 
 	i = 0;
-	if (isalpha(key[i]) != 1 && key[0] != '_')
-		return (0);
+	if (ft_isalpha(key[i]) != 1 && key[0] != '_')
+		return (1);
 	while (key[i] != '\0')
 	{
-		if (isalnum(key[i]) != 1 || key[i] == '_')
-			return (0);
+		if (ft_isalnum(key[i]) != 1 || key[i] == '_')
+			return (1);
 		i++;
 	}
-	return (1);
+	return (0);
 }
 
 t_env	*export_get_new_node(char *key, char *argv)
 {
-	t_env *new_node = malloc(sizeof(t_env));
-	new_node->key = key;
-	new_node->value = malloc(sizeof(char) * (ft_strlen(argv) + 1));
-	ft_strlcpy(new_node->value, argv, ft_strlen(argv) + 1);
+	t_env	*new_node;
+
+	new_node = malloc(sizeof(t_env));
+	new_node->key = ft_strdup(key);
+	new_node->value = ft_strdup(argv);
 	new_node->next = NULL;
 	return (new_node);
 }
+
 int	check_old_keys(char *key, char *argv, t_env *curr)
 {
-	// t_env	*prev;
-
-	// prev = NULL;
 	while (curr != NULL)
 	{
 		if (ft_strncmp(key, curr->key, ft_strlen(key) + 1) == 0)
@@ -49,17 +48,14 @@ int	check_old_keys(char *key, char *argv, t_env *curr)
 			free(curr->value);
 			curr->value = NULL;
 			free(key);
-			curr->value = malloc(sizeof(char) * (ft_strlen(argv) + 1));
-			ft_strlcpy(curr->value, argv, ft_strlen(argv) + 1);
+			key = NULL;
+			curr->value = ft_strdup(argv);
 			return (1);
 		}
-		// prev = curr;
 		curr = curr->next;
 	}
 	return (0);
 }
-
-// export mit dritter variable um argv zum free'n?
 
 int	ft_export(t_env **env, char *argv)
 {
@@ -70,19 +66,20 @@ int	ft_export(t_env **env, char *argv)
 	if (argv == NULL)
 		return (ft_export_no_args(env), 0);
 	key = get_key(argv);
-	if (check_key(key) == 0) {
-		// free key was missing
+	if (check_key(key) == 1)
+	{
+		putstr_fd("minishell: export: `", key, "': not a valid identifier\n",
+			2);
 		free(key);
 		return (1);
 	}
 	curr = *env;
 	if (check_old_keys(key, argv, curr) > 0)
 		return (0);
-	else if (check_key(key) == 1 && argv[ft_strlen(key)] == '=')
+	else if (check_key(key) == 0 && argv[ft_strlen(key)] == '=')
 	{
 		new_node = export_get_new_node(key, argv);
 		env_lstadd_back(env, new_node);
-		return (0);
 	}
 	free(key);
 	return (0);

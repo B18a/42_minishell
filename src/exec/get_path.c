@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
+/*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 15:57:27 by psanger           #+#    #+#             */
-/*   Updated: 2024/05/18 11:40:49 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/05/22 18:51:53 by psanger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,21 +52,33 @@ void	free_old_path(char **exe_path)
 	}
 }
 
-char	*get_path(char *argv)
+char	**get_exe_path(t_env **env)
+{
+	char	*env_path;
+	char	**exe_path;
+
+	env_path = NULL;
+	exe_path = NULL;
+	env_path = expander("PATH", env);
+	if (!env_path)
+		return (NULL);
+	exe_path = ft_split(env_path, ':');
+	free(env_path);
+	return (exe_path);
+}
+
+char	*get_path(char *argv, t_env **env)
 {
 	char	*path;
-	char	*env;
 	char	**exe_path;
 	int		i;
 
 	i = 0;
 	if (argv == NULL)
 		return (NULL);
-	env = getenv("PATH");
-	// env = expander("PATH", env);
-	if (!env)
+	exe_path = get_exe_path(env);
+	if (!exe_path)
 		return (NULL);
-	exe_path = ft_split(env, ':');
 	while (exe_path && exe_path[i])
 	{
 		exe_path[i] = ft_strjoin_free(exe_path[i], "/");

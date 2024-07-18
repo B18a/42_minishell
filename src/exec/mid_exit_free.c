@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mid_exit_free.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
+/*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 21:09:44 by psanger           #+#    #+#             */
-/*   Updated: 2024/05/10 22:27:38 by ajehle           ###   ########.fr       */
+/*   Updated: 2024/05/21 19:48:39 by psanger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	mid_free_exit(int exit_code, t_env **env, t_msh *root)
 {
-	if(root)
+	if (root)
 		free_tree(root);
-	if(env)
+	if (env)
 		env_free(*env);
-	exit(exit_code);
+	exit (exit_code);
 }

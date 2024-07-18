@@ -6,7 +6,7 @@
 /*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 09:46:21 by ajehle            #+#    #+#             */
-/*   Updated: 2024/05/15 21:06:43 by psanger          ###   ########.fr       */
+/*   Updated: 2024/05/23 22:08:45 by psanger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,12 @@ void	print_2d_arr(char **arr)
 	{
 		while (arr[i])
 		{
-			printf("				[%i]	|", i);
 			while (arr[i][j])
 			{
-				printf("%c", arr[i][j]);
+				printf("%s|%c|%s", BLUE, arr[i][j], RESET);
 				j++;
 			}
-			printf("|\n");
+			printf("\n");
 			j = 0;
 			i++;
 		}

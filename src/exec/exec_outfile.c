@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_outfile.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ajehle <ajehle@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 18:32:15 by psanger           #+#    #+#             */
-/*   Updated: 2024/05/17 13:28:49 by psanger          ###   ########.fr       */
+/*   Updated: 2024/05/24 21:28:51 by ajehle           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,5 @@ int	exec_outfile(t_msh *list, int if_exit, t_env **env)
 	}
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
-	return (handler(list->left, if_exit, env));
+	return (handler(list->left, if_exit, env, list->root));
 }
-
-// if fd < 0 --> permission denied error + output
-// outfile mit spaces

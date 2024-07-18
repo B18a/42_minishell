@@ -6,7 +6,7 @@
 /*   By: psanger <psanger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/26 00:05:02 by psanger           #+#    #+#             */
-/*   Updated: 2024/05/11 17:07:58 by psanger          ###   ########.fr       */
+/*   Updated: 2024/05/24 17:34:05 by psanger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@ int	ft_shell_lvl(t_env **env)
 	shlvl = NULL;
 	temp = NULL;
 	shell_lvl_str = expander("SHLVL", env);
-	if (shell_lvl_str != NULL)
+	if (shell_lvl_str != NULL && ft_atoi(shell_lvl_str) >= 0)
 	{
 		shell_lvl_i = ft_atoi(shell_lvl_str);
 		free(shell_lvl_str);
+		shell_lvl_i++;
 	}
 	else
 		shell_lvl_i = 0;
-	shell_lvl_i++;
 	shlvl = ft_itoa(shell_lvl_i);
 	temp = ft_strjoin("SHLVL=", shlvl);
 	ft_export(env, temp);
@@ -42,10 +42,19 @@ int	ft_shell_lvl(t_env **env)
 
 int	ft_env(t_env **env, char **args)
 {
-	t_env *curr;
+	t_env	*curr;
+	char	*path;
 
 	curr = *env;
-	if (args[1] != NULL) {
+	path = expander("PATH", env);
+	if (path == NULL)
+	{
+		ft_putstr_fd("minishell: env: No such file or directory\n", 2);
+		return (127);
+	}
+	free(path);
+	if (args[1] != NULL)
+	{
 		putstr_fd("env: ", args[1], ": No such file or directory\n", 2);
 		return (127);
 	}
