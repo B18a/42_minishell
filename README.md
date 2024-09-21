@@ -8,10 +8,6 @@
 
 The "Minishell" project focuses on creating a simple shell, similar to Bash, allowing interaction with the operating system through commands. You’ll learn about processes, file descriptors, and implementing features like command history, input/output redirection, and handling environment variables.
 
-### Mandatory Part Overview:
-- **Program Name:** `minishell`
-- **Required Files:** `Makefile`, `*.h`, `*.c`
-- **External Functions:** Includes functions for command execution, process control, and signal handling.
 - **Shell Features:**
   - Display a prompt for user input.
   - Maintain a command history.
